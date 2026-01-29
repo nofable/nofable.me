@@ -1,15 +1,17 @@
 body {
   font-family: "Raleway", sans-serif;
   font-optical-sizing: auto;
-  background-color: #ffe6d1;
-  color: #483e30;
+  background-color: #eff1f5;
+  color: #4c4f69;
   margin: 100px 20px;
 }
+
 container {
   display: flex;
   justify-content: center;
   align-items: column;
 }
+
 content {
   max-width: 600px;
   width: 100%;
@@ -27,10 +29,10 @@ li.post {
 }
 
 a {
-  color: #483e30;
+  color: #1e66f5;
   text-decoration: none;
 }
 
 a:visited {
-  color: #483e30;
+  color: #8839ef;
 }

@@ -2,17 +2,27 @@
   "home": {
     "slug": "index.html"
   },
-  "posts": [{
-    "title": "How to review an incident report",
-    "author": "William Woodhead",
-    "date": "2024-08-16",
-    "slug": "review-incident-report",
-    "filename": "review-incident-report.md"
-  }, {
-    "title": "How to review a technical spec",
-    "author": "William Woodhead",
-    "date": "2024-08-17",
-    "slug": "review-tech-spec",
-    "filename": "review-tech-spec.md"
-  }]
+  "posts": [
+    {
+      "title": "How to review an incident report",
+      "author": "William Woodhead",
+      "date": "2024-08-16",
+      "slug": "review-incident-report",
+      "filename": "review-incident-report.md"
+    },
+    {
+      "title": "How to review a technical spec",
+      "author": "William Woodhead",
+      "date": "2024-08-17",
+      "slug": "review-tech-spec",
+      "filename": "review-tech-spec.md"
+    },
+    {
+      "title": "Neural Networks and Deep Learning",
+      "author": "William Woodhead",
+      "date": "2024-08-17",
+      "slug": "neural-networks-and-deep-learning",
+      "filename": "neural-networks-and-deep-learning.md"
+    }
+  ]
 }
