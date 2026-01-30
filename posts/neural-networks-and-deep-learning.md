@@ -178,7 +178,8 @@ $$
 2. Feedforward: for each layer 2,..,L, compute $z^l = w^l a^{l-1} + b^l$ and $a^l = \sigma(z^l)$ 
 3. Output error $\delta^L$: Compute $\delta^L = \nabla_aC \odot \sigma'(z^L)$ 
 4. Backpropagate the error: For each l = L - 1,...,2 compute $\delta^l = ((w^{l+1})^T\delta^{l+1}) \odot \sigma'(z^l)$ 
-5. Output: Calculate the gradient of the cost function with respect to individual weights and biases using $\frac{\partial C}{\partial w^l_{jk}} = a^{l-1}_{k}\delta^l_{j}$ and $\frac{\partial C}{\partial b^l_{j}} = \delta^l_{j}$ 
+5. Output: Calculate the gradient of the cost function with respect to individual weights and biases using $\frac{\partial C}{\partial w^l_{jk}} = a_{k}^{l-1}\delta^l_{j}$ and $\frac{\partial C}{\partial b^l_{j}} = \delta^l_{j}$
+ 
 
 Backprop is typically combined with SGD to run the learning algorithm, with SGD being responsible for using the backpropagation output to adjust the weights and biases.
 
@@ -346,6 +347,7 @@ I was able to reach 99.0% classification accuracy, short of what Nielsen was abl
 One note is that PyTorch applies L2 Regularisation via the `weight_decay` parameter of the SGD method, rather than adding a parameter to the Cost function.
 
 <img src="../media/minst_classification_accuracy.png" />
+
 *Graph of accuracy by epoch via matplotlib*
 
 ```python

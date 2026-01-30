@@ -1,5 +1,5 @@
 {
-  "name": "williamwoodhead.com",
+  "name": "nofable.me",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -23,10 +23,10 @@
     "handlebars": "^4.7.8",
     "highlight.js": "^11.11.1",
     "http-server": "^14.1.1",
-    "marked": "^14.1.4",
+    "marked": "^17.0.1",
     "marked-highlight": "^2.2.3"
   },
   "engines": {
-    "node": ">=22.0.0"
+    "node": ">=25.2.0"
   }
 }

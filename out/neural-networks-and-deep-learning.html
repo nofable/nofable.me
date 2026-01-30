@@ -2,14 +2,22 @@
 <html lang="en-GB">
 
 <head>
+  <!-- Classic metadata -->
   <title>Neural Networks and Deep Learning</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!--  Font setup -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
     rel="stylesheet">
+
+  <!-- Styles -->
   <link rel="stylesheet" href="./main.css">
+
+  <!-- Latex rendering -->
   <script>
     MathJax = {
       tex: { inlineMath: { '[+]': [['$', '$']] } }
@@ -17,7 +25,8 @@
   </script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js" defer></script>
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css">
+  <!-- Code syntax highlighting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@catppuccin/highlightjs@1.0.1/css/catppuccin-mocha.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/python.min.js"></script>
   <script>hljs.highlightAll();</script>
@@ -205,7 +214,7 @@ $$
 <li>Feedforward: for each layer 2,..,L, compute $z^l = w^l a^{l-1} + b^l$ and $a^l = \sigma(z^l)$ </li>
 <li>Output error $\delta^L$: Compute $\delta^L = \nabla_aC \odot \sigma&#39;(z^L)$ </li>
 <li>Backpropagate the error: For each l = L - 1,...,2 compute $\delta^l = ((w^{l+1})^T\delta^{l+1}) \odot \sigma&#39;(z^l)$ </li>
-<li>Output: Calculate the gradient of the cost function with respect to individual weights and biases using $\frac{\partial C}{\partial w^l_{jk}} = a^{l-1}<em>{k}\delta^l</em>{j}$ and $\frac{\partial C}{\partial b^l_{j}} = \delta^l_{j}$</li>
+<li>Output: Calculate the gradient of the cost function with respect to individual weights and biases using $\frac{\partial C}{\partial w^l_{jk}} = a_{k}^{l-1}\delta^l_{j}$ and $\frac{\partial C}{\partial b^l_{j}} = \delta^l_{j}$</li>
 </ol>
 <p>Backprop is typically combined with SGD to run the learning algorithm, with SGD being responsible for using the backpropagation output to adjust the weights and biases.</p>
 <p>The algorithm being, for each $l = L, L-1,...,2$ update the weights according to the rule $w^l \to w^l - \frac{\eta}{m}\sum_x\delta^{x,l}(a^{x,l-1})^T$ and the biases according to the rule $b^l \to b^l - \frac{\eta}{m}\sum_x\delta^{x,l}$, where $m$ is the size of the mini-batch.</p>
@@ -338,8 +347,8 @@ $$</p>
 <p>I was able to reach 99.0% classification accuracy, short of what Nielsen was able to accomplish with his network.</p>
 <p>One note is that PyTorch applies L2 Regularisation via the <code>weight_decay</code> parameter of the SGD method, rather than adding a parameter to the Cost function.</p>
 <img src="../media/minst_classification_accuracy.png" />
-*Graph of accuracy by epoch via matplotlib*
 
+<p><em>Graph of accuracy by epoch via matplotlib</em></p>
 <pre><code class="hljs language-python"><span class="hljs-comment"># network3.py</span>
 <span class="hljs-keyword">import</span> torch
 <span class="hljs-keyword">from</span> torch <span class="hljs-keyword">import</span> accelerator, nn
