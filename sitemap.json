@@ -4,6 +4,14 @@
   },
   "posts": [
     {
+      "title": "ML with Kaggle Ames House Prices",
+      "author": "William Woodhead",
+      "date": "2026-01-30",
+      "slug": "ml-kaggle-ames-house-prices",
+      "filename": "ml-kaggle-ames-house-prices.md",
+      "desc": "In this project, I built a full end-to-end machine learning pipeline on the Kaggle Ames House Prices dataset. Using careful feature engineering and Gradient Boosting, I achieved a leaderboard score of 0.13339 (top ~2k)..."
+    },
+    {
       "title": "Neural Networks and Deep Learning",
       "author": "William Woodhead",
       "date": "2026-01-10",
@@ -17,7 +25,15 @@
       "date": "2025-12-02",
       "slug": "framework13-arch-linux-hyprland",
       "filename": "framework13-arch-linux-hyprland.md",
-      "desc": "I started this project out of curiosity about Linux. Logging into transient cloud boxes wasn’t enough for me to really get my hands dirty, and neither was running virtual machines on my MacBook...."
+      "desc": "I started this project out of curiosity about Linux. Logging into transient cloud boxes wasn’t enough for me to really get my hands dirty, and neither was running virtual machines on my MacBook..."
+    },
+    {
+      "title": "How to write better tech design docs",
+      "author": "William Woodhead",
+      "date": "2025-11-21",
+      "slug": "write-better-tech-design-docs",
+      "filename": "write-better-tech-design-docs.md",
+      "desc": "This post is for you if you are an software engineer who finds it hard to write Technical Design Documents (TDDs)..."
     }
   ]
 }

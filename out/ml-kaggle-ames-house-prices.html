@@ -2,7 +2,8 @@
 <html lang="en-GB">
 
 <head>
-  <title>williamwoodhead.com</title>
+  <!-- Classic metadata -->
+  <title>ML with Kaggle Ames House Prices</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -13,7 +14,23 @@
     href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
     rel="stylesheet">
 
+  <!-- Styles -->
   <link rel="stylesheet" href="./main.css">
+
+  <!-- Latex rendering -->
+  <script>
+    MathJax = {
+      tex: { inlineMath: { '[+]': [['$', '$']] } }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js" defer></script>
+
+  <!-- Code syntax highlighting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@catppuccin/highlightjs@1.0.1/css/catppuccin-mocha.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/bash.min.js"></script>
+  <script>hljs.highlightAll();</script>
 </head>
 
 <body>
@@ -26,45 +43,1110 @@
         </div>
         <p>nofable.me by WILLIAM WOODHEAD</p>
       </a>
-      <h1>Posts</h1>
-      <div>
-        <div class="post">
-          <div class="post-head">
-            <a href="/ml-kaggle-ames-house-prices" class="post-title">
-              ML with Kaggle Ames House Prices
-            </a>
-            <div class="post-date">2026-01-30</div>
-          </div>
-          <div class="post-desc">In this project, I built a full end-to-end machine learning pipeline on the Kaggle Ames House Prices dataset. Using careful feature engineering and Gradient Boosting, I achieved a leaderboard score of 0.13339 (top ~2k)...</div>
-        </div>
-        <div class="post">
-          <div class="post-head">
-            <a href="/neural-networks-and-deep-learning" class="post-title">
-              Neural Networks and Deep Learning
-            </a>
-            <div class="post-date">2026-01-10</div>
-          </div>
-          <div class="post-desc">In this post, I note down my learnings from reading Neural Networks and Deep Learning by Michael Nielsen. At the end, I also provide the code I wrote in PyTorch, and the classification accuracy I was able to achieve for MNIST...</div>
-        </div>
-        <div class="post">
-          <div class="post-head">
-            <a href="/framework13-arch-linux-hyprland" class="post-title">
-              Framework 13 Arch Linux Hyprland setup
-            </a>
-            <div class="post-date">2025-12-02</div>
-          </div>
-          <div class="post-desc">I started this project out of curiosity about Linux. Logging into transient cloud boxes wasn’t enough for me to really get my hands dirty, and neither was running virtual machines on my MacBook...</div>
-        </div>
-        <div class="post">
-          <div class="post-head">
-            <a href="/write-better-tech-design-docs" class="post-title">
-              How to write better tech design docs
-            </a>
-            <div class="post-date">2025-11-21</div>
-          </div>
-          <div class="post-desc">This post is for you if you are an software engineer who finds it hard to write Technical Design Documents (TDDs)...</div>
-        </div>
-      </div>
+      <h1>ML with Kaggle Ames House Prices</h1>
+
+      <h1>Project Report</h1>
+<h2>Summary</h2>
+<p>In this project, I built a full end-to-end machine learning pipeline on the <a href="https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques">Kaggle Ames House Prices</a> dataset.
+Using careful feature engineering and Gradient Boosting, I achieved a leaderboard score of 0.13339 (top ~2k).
+The main focus was learning classical ML workflows on tabular data rather than leaderboard chasing.</p>
+<p>This post is aimed at beginners and intermediates who want to see another&#39;s process for learning classical machine learning on tabular data.</p>
+<h2>Evaluation</h2>
+<p><strong>Goal</strong>: Predict the sales price for houses. For each <code>Id</code> in the test set, predict the value of <code>SalePrice</code>. </p>
+<p><strong>Metric</strong>: Submissions are evaluated on Root-Mean-Squared-Error (RMSE) between the logarithm of the predicted value and the logarithm of the observed sales price.</p>
+<p>For cross-validation, RMSE is reported on the original SalePrice scale for interpretability. Kaggle leaderboard scores are computed on log-transformed values.</p>
+<h2>Result</h2>
+<p>1 entry. Scored 0.13339. 1964 on Leaderboard.</p>
+<h2>Analysis</h2>
+<h3>EDA</h3>
+<p>I started with an Exploratory Data Analysis (EDA) checklist. EDA focused on missingness, sparsity, feature correlations, and target distribution — with the goal of informing imputation and scaling decisions.</p>
+<p>Here are some interesting findings.</p>
+<h4>Hygiene checks</h4>
+<p>The datasets are in good condition. Their columns match (apart from the target <code>SalePrice</code>), and there is a good description in the documentation for almost all of the features. </p>
+<h4>Missing values and feature categorisation</h4>
+<p>Quick missing and sparse checks on the combined training and test data.
+We can see that there are missing values for several features. (yellow indicates missing/sparse values)
+<img src="./media/missing_values_heatmap.png" />
+<img src="./media/sparse_values_heatmap.png" /></p>
+<p>This directed me to an imputation strategy for all features, categorising all features into:</p>
+<ol>
+<li><code>numeric</code> or <code>categorical</code></li>
+<li><code>structural</code> (missing=non-existent. eg. <code>PoolArea</code>) or <code>substantive</code> (missing=unknown. eg. <code>LotArea</code>)</li>
+<li><code>ordinal</code> or <code>nominal</code> for <code>categorical</code> features.</li>
+</ol>
+<p>Here is one example of the ordinal categories for one feature:</p>
+<ul>
+<li><code>Ex</code> Excellent</li>
+<li><code>Gd</code> Good</li>
+<li><code>TA</code> Typical - slight dampness allowed</li>
+<li><code>Fa</code> Fair - dampness or some cracking or settling</li>
+<li><code>Po</code> Poor - Severe cracking, settling, or wetness</li>
+<li><code>NA</code> No Basement</li>
+</ul>
+<p>I was comfortable assuming that the implied ordering reflects true value differences, while acknowledging this may not always hold perfectly.</p>
+<h4>Imputation strategy</h4>
+<p>At this point, I created a feature descriptor database in <code>src/ames/data/features.py</code> to capture the different classes of feature outlined above. Here is a view of it in a table:</p>
+<table>
+<thead>
+<tr>
+<th align="left">Feature</th>
+<th align="left">Type</th>
+<th align="left">Sub Type</th>
+<th align="left">Ordinal?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">1stFlrSF</td>
+<td align="left">num</td>
+<td align="left">substantive</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">2ndFlrSF</td>
+<td align="left">num</td>
+<td align="left">structural</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">3SsnPorch</td>
+<td align="left">num</td>
+<td align="left">structural</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">Alley</td>
+<td align="left">cat</td>
+<td align="left">structural</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">BedroomAbvGr</td>
+<td align="left">num</td>
+<td align="left">substantive</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">BldgType</td>
+<td align="left">cat</td>
+<td align="left">substantive</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">BsmtCond</td>
+<td align="left">cat</td>
+<td align="left">structural</td>
+<td align="left">True</td>
+</tr>
+<tr>
+<td align="left">BsmtExposure</td>
+<td align="left">cat</td>
+<td align="left">structural</td>
+<td align="left">True</td>
+</tr>
+<tr>
+<td align="left">BsmtFinSF1</td>
+<td align="left">num</td>
+<td align="left">structural</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">BsmtFinSF2</td>
+<td align="left">num</td>
+<td align="left">structural</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">BsmtFinType1</td>
+<td align="left">cat</td>
+<td align="left">structural</td>
+<td align="left">True</td>
+</tr>
+<tr>
+<td align="left">BsmtFinType2</td>
+<td align="left">cat</td>
+<td align="left">structural</td>
+<td align="left">True</td>
+</tr>
+<tr>
+<td align="left">BsmtFullBath</td>
+<td align="left">num</td>
+<td align="left">substantive</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">BsmtHalfBath</td>
+<td align="left">num</td>
+<td align="left">substantive</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">BsmtQual</td>
+<td align="left">cat</td>
+<td align="left">structural</td>
+<td align="left">True</td>
+</tr>
+<tr>
+<td align="left">BsmtUnfSF</td>
+<td align="left">num</td>
+<td align="left">structural</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">CentralAir</td>
+<td align="left">cat</td>
+<td align="left">substantive</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">Condition1</td>
+<td align="left">cat</td>
+<td align="left">structural</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">Condition2</td>
+<td align="left">cat</td>
+<td align="left">structural</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">Electrical</td>
+<td align="left">cat</td>
+<td align="left">substantive</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">EnclosedPorch</td>
+<td align="left">num</td>
+<td align="left">structural</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">ExterCond</td>
+<td align="left">cat</td>
+<td align="left">substantive</td>
+<td align="left">True</td>
+</tr>
+<tr>
+<td align="left">Exterior1st</td>
+<td align="left">cat</td>
+<td align="left">substantive</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">Exterior2nd</td>
+<td align="left">cat</td>
+<td align="left">substantive</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">ExterQual</td>
+<td align="left">cat</td>
+<td align="left">substantive</td>
+<td align="left">True</td>
+</tr>
+<tr>
+<td align="left">Fence</td>
+<td align="left">cat</td>
+<td align="left">structural</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">FireplaceQu</td>
+<td align="left">cat</td>
+<td align="left">structural</td>
+<td align="left">True</td>
+</tr>
+<tr>
+<td align="left">Fireplaces</td>
+<td align="left">num</td>
+<td align="left">structural</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">Foundation</td>
+<td align="left">cat</td>
+<td align="left">substantive</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">FullBath</td>
+<td align="left">num</td>
+<td align="left">substantive</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">Functional</td>
+<td align="left">cat</td>
+<td align="left">substantive</td>
+<td align="left">True</td>
+</tr>
+<tr>
+<td align="left">GarageArea</td>
+<td align="left">num</td>
+<td align="left">structural</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">GarageCars</td>
+<td align="left">num</td>
+<td align="left">structural</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">GarageCond</td>
+<td align="left">cat</td>
+<td align="left">structural</td>
+<td align="left">True</td>
+</tr>
+<tr>
+<td align="left">GarageFinish</td>
+<td align="left">cat</td>
+<td align="left">structural</td>
+<td align="left">True</td>
+</tr>
+<tr>
+<td align="left">GarageQual</td>
+<td align="left">cat</td>
+<td align="left">structural</td>
+<td align="left">True</td>
+</tr>
+<tr>
+<td align="left">GarageType</td>
+<td align="left">cat</td>
+<td align="left">structural</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">GarageYrBlt</td>
+<td align="left">num</td>
+<td align="left">substantive</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">GrLivArea</td>
+<td align="left">num</td>
+<td align="left">substantive</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">HalfBath</td>
+<td align="left">num</td>
+<td align="left">substantive</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">Heating</td>
+<td align="left">cat</td>
+<td align="left">substantive</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">HeatingQC</td>
+<td align="left">cat</td>
+<td align="left">substantive</td>
+<td align="left">True</td>
+</tr>
+<tr>
+<td align="left">HouseStyle</td>
+<td align="left">cat</td>
+<td align="left">substantive</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">Id</td>
+<td align="left">num</td>
+<td align="left">substantive</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">KitchenAbvGr</td>
+<td align="left">num</td>
+<td align="left">substantive</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">KitchenQual</td>
+<td align="left">cat</td>
+<td align="left">substantive</td>
+<td align="left">True</td>
+</tr>
+<tr>
+<td align="left">LandContour</td>
+<td align="left">cat</td>
+<td align="left">substantive</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">LandSlope</td>
+<td align="left">cat</td>
+<td align="left">substantive</td>
+<td align="left">True</td>
+</tr>
+<tr>
+<td align="left">LotArea</td>
+<td align="left">num</td>
+<td align="left">substantive</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">LotConfig</td>
+<td align="left">cat</td>
+<td align="left">substantive</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">LotFrontage</td>
+<td align="left">num</td>
+<td align="left">substantive</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">LotShape</td>
+<td align="left">cat</td>
+<td align="left">substantive</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">LowQualFinSF</td>
+<td align="left">num</td>
+<td align="left">substantive</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">MasVnrArea</td>
+<td align="left">num</td>
+<td align="left">structural</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">MasVnrType</td>
+<td align="left">cat</td>
+<td align="left">structural</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">MiscFeature</td>
+<td align="left">cat</td>
+<td align="left">structural</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">MiscVal</td>
+<td align="left">num</td>
+<td align="left">structural</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">MoSold</td>
+<td align="left">num</td>
+<td align="left">substantive</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">MSSubClass</td>
+<td align="left">cat</td>
+<td align="left">substantive</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">MSZoning</td>
+<td align="left">cat</td>
+<td align="left">substantive</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">Neighborhood</td>
+<td align="left">cat</td>
+<td align="left">substantive</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">OpenPorchSF</td>
+<td align="left">num</td>
+<td align="left">structural</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">OverallCond</td>
+<td align="left">num</td>
+<td align="left">substantive</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">OverallQual</td>
+<td align="left">num</td>
+<td align="left">substantive</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">PavedDrive</td>
+<td align="left">cat</td>
+<td align="left">substantive</td>
+<td align="left">True</td>
+</tr>
+<tr>
+<td align="left">PoolArea</td>
+<td align="left">num</td>
+<td align="left">structural</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">PoolQC</td>
+<td align="left">cat</td>
+<td align="left">structural</td>
+<td align="left">True</td>
+</tr>
+<tr>
+<td align="left">RoofMatl</td>
+<td align="left">cat</td>
+<td align="left">substantive</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">RoofStyle</td>
+<td align="left">cat</td>
+<td align="left">substantive</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">SaleCondition</td>
+<td align="left">cat</td>
+<td align="left">substantive</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">SaleType</td>
+<td align="left">cat</td>
+<td align="left">substantive</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">ScreenPorch</td>
+<td align="left">num</td>
+<td align="left">structural</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">Street</td>
+<td align="left">cat</td>
+<td align="left">substantive</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">TotalBsmtSF</td>
+<td align="left">num</td>
+<td align="left">structural</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">TotRmsAbvGrd</td>
+<td align="left">num</td>
+<td align="left">substantive</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">Utilities</td>
+<td align="left">cat</td>
+<td align="left">substantive</td>
+<td align="left">True</td>
+</tr>
+<tr>
+<td align="left">WoodDeckSF</td>
+<td align="left">num</td>
+<td align="left">structural</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">YearBuilt</td>
+<td align="left">num</td>
+<td align="left">substantive</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">YearRemodAdd</td>
+<td align="left">num</td>
+<td align="left">structural</td>
+<td align="left">False</td>
+</tr>
+<tr>
+<td align="left">YrSold</td>
+<td align="left">num</td>
+<td align="left">substantive</td>
+<td align="left">False</td>
+</tr>
+</tbody></table>
+<h4>Numeric feature correlation</h4>
+<p>The next step was to explore numeric feature&lt;-&gt;feature correlation and feature&lt;-&gt;target correlation.</p>
+<p>The following image shows top correlating numeric features across both training and test datasets. If we look at the red squares above 0.8 on the heatmap, we can health check it: For example, the top scoring feature&lt;-&gt;feature correlation is <code>0.89</code> between <code>GarageArea</code> and <code>GarageCars</code>. It is self-explanatory why these two features might correlate highly.</p>
+<p>Seeing this heatmap sparked ideas on feature ablation tests for the Feature Engineering phase.</p>
+<p><img src="./media/top_20_feature2feature_corr.png" /></p>
+<p>The following image shows the features that correlate most with the target <code>SalePrice</code>. Looking at the first column, we can see that <code>OverallQual</code> and <code>GrLivArea</code> correlate most highly. These are likely to be strong predictors of <code>SalePrice</code> in the modelling phase.
+<img src="./media/top_20_feature2target_corr.png" /></p>
+<p>This following image shows a visual-check overview of how each feature scatterplots with <code>SalePrice</code>. I found this very useful to see which features have high sparsity, which are discrete, and which show strong linear correlation. Looking at this chart, it became clear to me that:</p>
+<ul>
+<li><code>MSSubClass</code> is a categorical in disguise.</li>
+<li><code>MoSold</code> and <code>YrSold</code> should be dropped since they exhibit no variation on <code>SalePrice</code>.</li>
+</ul>
+<p><img src="./media/feature_to_target_scatters.png" /></p>
+<p>The following image shows the top Mutual Information scores for numerics features against <code>SalePrice</code>. Mutual Information captures both linear and non-linear dependency by estimating how much knowing one variable reduces uncertainty about the other. Again we can see some familiar features topping the list. 
+<img src="./media/num2target_top_20_mi.png" /></p>
+<h4>Categorical feature correlation</h4>
+<p>The following image shows the top Mutual Information scores for categorical features against <code>SalePrice</code>. Here we can see for the first time how strong <code>Neighborhood</code> is as a predictor of <code>SalePrice</code>.</p>
+<p>This checks out intuitively. Anyone who has thought about house prices for more than a few seconds knows that <em>location</em> really matters when it comes to house prices.
+<img src="./media/cat2target_top_20_mi.png" /></p>
+<h4>Target encoding</h4>
+<p>Target encoding was straight-forward since Kaggle specified it in the competition brief. They want competitors to predict the logarithm of the target. I did some analysis to see why this makes sense.</p>
+<p>When we look at the distribution for <code>SalePrice</code> we observe that it is never negative, it is right skewed, and it has some high outliers. We don&#39;t want to ignore the high outliers since big house prices are important data points. But we want to find a way to make the distribution more balanced and suitable for linear modelling.</p>
+<p>The left hand side is the distribution of <code>SalePrice</code>. The right hand side of this image is the log distribution. We can see that the log distribution is more balanced, and the effect of the outliers has been reduced. This makes it more suitable for linear modelling.</p>
+<p><img src="./media/target_log_encoding.png" /></p>
+<h4>Categorical encoding</h4>
+<p>Categorical features can be split into <code>ordinal</code> and <code>nominal</code> features. For the <code>ordinal</code> features, the decision was straightforward. I would use <code>OrdinalEncoder</code>. For the <code>nominal</code> features, the options are either to:</p>
+<ul>
+<li>one hot encode</li>
+<li>drop</li>
+<li>make binary</li>
+</ul>
+<p>I investigated the top cardinality of the categorical nominal features across training and test datasets:</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Cardinality</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Neighborhood</td>
+<td>25</td>
+</tr>
+<tr>
+<td>Exterior2nd</td>
+<td>15</td>
+</tr>
+<tr>
+<td>Exterior1st</td>
+<td>13</td>
+</tr>
+<tr>
+<td>SaleType</td>
+<td>9</td>
+</tr>
+<tr>
+<td>Condition1</td>
+<td>9</td>
+</tr>
+</tbody></table>
+<p>You can see that there isn&#39;t high cardinality in these datasets. <code>Neighborhood</code> has the highest, but we know this is a strong predictor of <code>SalePrice</code> so we don&#39;t want to lose any information here. And even then it&#39;s only 25.</p>
+<p>My thinking at this point was to one-hot encode all categorical nominal features.</p>
+<p>One experiment might be to ignore feature categories with low frequency using the <code>min_frequency</code> parameter of <code>OneHotEncoder</code>.</p>
+<h4>Numeric scaling</h4>
+<p>In this project I wanted to explore both linear and tree-based models. Linear models require appropriate scaling of all numeric features. So I went through all the numeric features and analysed what scaling might be appropriate. This is what I came up with:</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>key stats</th>
+<th>Strategy</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1stFlrSF</td>
+<td>skew=1.37, sparse=0.0, outlier=0.013</td>
+<td>Log Scale</td>
+<td>Right skew, meaningful high outliers</td>
+</tr>
+<tr>
+<td>2ndFlrSF</td>
+<td>skew=0.81, sparse=0.56, outlier=0.001</td>
+<td>Split in &quot;has2ndFlr&quot; and &quot;SecondFlrSF&quot;. Then Standard.</td>
+<td>High sparsity. once split has limited skew</td>
+</tr>
+<tr>
+<td>3SsnPorch</td>
+<td>skew=10.29, sparsen=0.98 outlier=0.016</td>
+<td>Make binary: &quot;has3SsnPorch&quot;</td>
+<td>Very high sparsity. poor predictor of saleprice</td>
+</tr>
+<tr>
+<td>BedroomAbvGr</td>
+<td>skew=0.21, sparsen=0.00 outlier=0.023</td>
+<td>Standard Scale</td>
+<td>Discrete. distribution</td>
+</tr>
+<tr>
+<td>BsmtFinSF1</td>
+<td>skew=1.68, sparsen=0.31 outlier=0.004</td>
+<td>Split in &quot;hasBsmt1&quot; and &quot;BsmtSF1&quot;. Then Standard</td>
+<td>High sparsity. once split has limited skew</td>
+</tr>
+<tr>
+<td>BsmtFinSF2</td>
+<td>skew=4.25, sparsen=0.88 outlier=0.114</td>
+<td>Make binary: &quot;hasBsmt2&quot;</td>
+<td>Very high sparsity. poor predictor of saleprice</td>
+</tr>
+<tr>
+<td>BsmtFullBath</td>
+<td>skew=0.59, sparsen=0.58 outlier=0.00</td>
+<td>Standard Scale</td>
+<td>Discrete distribution with low max</td>
+</tr>
+<tr>
+<td>BsmtHalfBath</td>
+<td>skew=4.0, sparse=0.94 outlier=0.05</td>
+<td>Standard Scale</td>
+<td>Very high sparsity, discrete distribution</td>
+</tr>
+<tr>
+<td>BsmtUnfSF</td>
+<td>skew=0.91, sparse=0.08, outlier=0.019</td>
+<td>Robust Scale</td>
+<td>Poisson-style dist.</td>
+</tr>
+<tr>
+<td>EnclosedPorch</td>
+<td>skew=3.08, sparse=0.85, outlier=0.142</td>
+<td>Split in &quot;hasEnclosedPorch&quot; and &quot;EnclosedPorchSF&quot;.</td>
+<td>High sparsity. once split has limited skew</td>
+</tr>
+<tr>
+<td>Fireplaces</td>
+<td>skew=0.648, sparse=0.47, outlier=0.003</td>
+<td>Standard Scale</td>
+<td>Discrete distribution with low max</td>
+</tr>
+<tr>
+<td>FullBath</td>
+<td>skew=0.036, sparse=0.00, outlier=0.000</td>
+<td>Standard Scale</td>
+<td>Discrete distribution with low max</td>
+</tr>
+<tr>
+<td>GarageArea</td>
+<td>skew=0.179, sparse=0.05, outlier=0.014</td>
+<td>Split in &quot;hasGarage&quot; and &quot;GarageSF&quot;. Then Standard</td>
+<td>Sparsity takes away from distribution</td>
+</tr>
+<tr>
+<td>GarageCars</td>
+<td>skew=-0.342, sparse=0.05, outlier=0.003</td>
+<td>Standard Scale</td>
+<td>Discrete distribution with low max</td>
+</tr>
+<tr>
+<td>GarageYrBlt</td>
+<td>skew=-0.677, sparse=0.00, outlier=0.000</td>
+<td>Standard Scale</td>
+<td>Preserve increase in years</td>
+</tr>
+<tr>
+<td>GrLivArea</td>
+<td>skew=1.365, sparse=0.00, outlier=0.021</td>
+<td>Log Scale</td>
+<td>Right skew, meaningful high outliers</td>
+</tr>
+<tr>
+<td>HalfBath</td>
+<td>skew=0.675, sparse=0.62, outlier=0.000</td>
+<td>Standard Scale</td>
+<td>Discrete distribution with low max</td>
+</tr>
+<tr>
+<td>Id</td>
+<td>skew=0.000, sparse=0.00, outlier=0.000</td>
+<td>Drop</td>
+<td>Id not required</td>
+</tr>
+<tr>
+<td>KitchenAbvGr</td>
+<td>skew=4.483, sparse=0.00, outlier=0.046</td>
+<td>Standard Scale</td>
+<td>Discrete distribution with low max</td>
+</tr>
+<tr>
+<td>LotArea</td>
+<td>skew=12.195, sparse=0.00, outlier=0.047</td>
+<td>Log Scale</td>
+<td>Right skew, meaningful high outliers</td>
+</tr>
+<tr>
+<td>LotFrontage</td>
+<td>skew=2.406, sparse=0.00, outlier=0.072</td>
+<td>Log Scale</td>
+<td>Right skew, meaningful high outliers</td>
+</tr>
+<tr>
+<td>LowQualFinSF</td>
+<td>skew=9.002, sparse=0.98, outlier=0.017</td>
+<td>Make binary: &quot;hasLowQualSF&quot;</td>
+<td>Very high sparsity. poor predictor of saleprice</td>
+</tr>
+<tr>
+<td>MasVnrArea</td>
+<td>skew=2.674, sparse=0.59, outlier=0.067</td>
+<td>Split in &quot;HasMasVnrArea&quot; and &quot;MasVnrSF&quot;. Then Standard</td>
+<td>High sparsity. once split has limited skew</td>
+</tr>
+<tr>
+<td>MiscVal</td>
+<td>skew=24.451, sparse=0.96, outlier=0.035</td>
+<td>Drop</td>
+<td>Even when split, I can&#39;t see a linear correlation with saleprice</td>
+</tr>
+<tr>
+<td>MoSold</td>
+<td>skew=0.211, sparse=0.00, outlier=0.000</td>
+<td>Drop</td>
+<td>No relationship to sale price</td>
+</tr>
+<tr>
+<td>MSSubClass</td>
+<td>skew=1.406, sparse=0.00, outlier=0.070</td>
+<td>Turn to categorical. one-hot encode.</td>
+<td>Not a numeric feature</td>
+</tr>
+<tr>
+<td>OpenPorchSF</td>
+<td>skew=2.361, sparse=0.44, outlier=0.052</td>
+<td>Split in &quot;hasOpenPorch&quot; and &quot;OpenPorchSF&quot;.</td>
+<td>High sparsity. once split has limited skew</td>
+</tr>
+<tr>
+<td>OverallCond</td>
+<td>skew=0.692, sparse=0.00, outlier=0.085</td>
+<td>Standard Scale</td>
+<td>Discrete distribution with low max</td>
+</tr>
+<tr>
+<td>OverallQual</td>
+<td>skew=0.216, sparse=0.00, outlier=0.001</td>
+<td>Standard Scale</td>
+<td>Discrete distribution with low max</td>
+</tr>
+<tr>
+<td>PoolArea</td>
+<td>skew=14.813, sparse=0.99, outlier=0.004</td>
+<td>Make binary: &quot;hasPool&quot;</td>
+<td>Very high sparsity. poor predictor of saleprice</td>
+</tr>
+<tr>
+<td>ScreenPorch</td>
+<td>skew=4.117, sparse=0.92, outlier=0.079</td>
+<td>Split in &quot;hasScreenPorch&quot; and &quot;ScreenPorchSF&quot;</td>
+<td>High sparsity. once split has limited skew</td>
+</tr>
+<tr>
+<td>TotalBsmtSF</td>
+<td>skew=1.522, sparse=0.02, outlier=0.041</td>
+<td>Split in &quot;hasBsmt&quot; and &quot;BsmtSF&quot;. Then Standard.</td>
+<td>Exclude zeros to reveal distribution</td>
+</tr>
+<tr>
+<td>TotRmsAbvGrd</td>
+<td>skew=0.675, sparse=0.00, outlier=0.020</td>
+<td>Standard Scale</td>
+<td>Discrete distribution with low max</td>
+</tr>
+<tr>
+<td>WoodDeckSF</td>
+<td>skew=1.539, sparse=0.52, outlier=0.021</td>
+<td>Split in &quot;hasWoodDeck&quot; and &quot;WoodDeckSF&quot;. Then Standard.</td>
+<td>High sparsity. once split has limited skew</td>
+</tr>
+<tr>
+<td>YearBuilt</td>
+<td>skew=-0.612, sparse=0.00, outlier=0.004</td>
+<td>Standard Scale</td>
+<td>Preserve year to year scale</td>
+</tr>
+<tr>
+<td>YearRemodAdd</td>
+<td>skew=-0.503, sparse=0.00, outlier=0.000</td>
+<td>Standard Scale</td>
+<td>Preserve year to year scale</td>
+</tr>
+<tr>
+<td>YrSold</td>
+<td>skew=0.096, sparse=0.00, outlier=0.000</td>
+<td>Drop</td>
+<td>No relationship to sale price</td>
+</tr>
+</tbody></table>
+<p>The process of building this table allowed me to group the features into classes. When grouped, these are the overarching heuristics:</p>
+<ul>
+<li>Sparse &amp; low correlation -&gt; binary</li>
+<li>Sparse &amp; high correlation -&gt; zero flag + distribution</li>
+<li>Right-skewed &amp; continuous -&gt; log</li>
+<li>Discrete small counts -&gt; standard</li>
+<li>Poisson-like, mild outliers -&gt; robust</li>
+<li>Irrelevant -&gt; drop</li>
+<li>Categorical in disguise -&gt; one-hot</li>
+</ul>
+<h2>Modelling</h2>
+<p>With the EDA complete, my next step was to choose some models and establish baselines.</p>
+<h3>Choose models</h3>
+<p>The goal of this project was to explore linear and tree-based models. The models I wanted to evaluate were the following:</p>
+<table>
+<thead>
+<tr>
+<th>Base Type</th>
+<th>Model</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Linear</td>
+<td>Ordinary Least Squares (OLS)</td>
+<td>Rough baseline, zero-cost training</td>
+</tr>
+<tr>
+<td>Linear</td>
+<td>Lasso</td>
+<td>See how it compares with OLS</td>
+</tr>
+<tr>
+<td>Linear</td>
+<td>Ridge</td>
+<td>L2 regularization could work well with this dataset</td>
+</tr>
+<tr>
+<td>Linear</td>
+<td>ElasticNet</td>
+<td>Curious how this would compare against Lasso and Ridge</td>
+</tr>
+<tr>
+<td>Tree</td>
+<td>RandomForest</td>
+<td>Get a baseline for how tree models cope with this dataset</td>
+</tr>
+<tr>
+<td>Tree</td>
+<td>GradientBoost</td>
+<td>Compare against RandomForest. Could the shallow tree depth be stronger against overfitting here?</td>
+</tr>
+<tr>
+<td>Tree</td>
+<td>AdaBoost</td>
+<td>Comparison to other tree-based models</td>
+</tr>
+</tbody></table>
+<h3>Setup decisions</h3>
+<ul>
+<li>Use sklearn <code>Pipeline</code> to avoid gotchas with preprocessing.</li>
+<li>Use Cross Validation to avoid overfitting. Use <code>n_splits=10</code> as a reasonable default.</li>
+<li>Use manual Grid Search to find hyperparameter ranges. This avoid introducing complex dependencies when I&#39;m trying to learn.</li>
+</ul>
+<h3>Establishing a baseline</h3>
+<p>The next step was to establish a baseline pipeline, that does imputing, encoding, and modelling.
+My decision for the baseline was to:</p>
+<ul>
+<li>Drop <code>Id</code>, <code>MoSold</code></li>
+<li>Impute all features&#39; missing values</li>
+<li><code>StandardScaler</code> for all numeric features</li>
+<li><code>OneHotEncoder</code> for all categorical nominal features</li>
+<li><code>OrdinalEncoder</code> for all categorical ordinal features</li>
+</ul>
+<p>My baseline imputation strategy was as follows:</p>
+<pre><code class="hljs language-python"><span class="hljs-comment"># numeric structural</span>
+SimpleImputer(strategy=<span class="hljs-string">&quot;constant&quot;</span>, fill_value=<span class="hljs-number">0</span>)
+<span class="hljs-comment"># numeric substantive</span>
+SimpleImputer(strategy=<span class="hljs-string">&quot;median&quot;</span>, add_indicator=<span class="hljs-literal">True</span>)
+<span class="hljs-comment"># categorical structural</span>
+SimpleImputer(strategy=<span class="hljs-string">&quot;constant&quot;</span>, fill_value=<span class="hljs-string">&quot;NA&quot;</span>)
+<span class="hljs-comment"># categorical substantive</span>
+SimpleImputer(strategy=<span class="hljs-string">&quot;constant&quot;</span>, fill_value=<span class="hljs-string">&quot;Unknown&quot;</span>)
+<span class="hljs-comment"># categorical ordinal structural</span>
+SimpleImputer(strategy=<span class="hljs-string">&quot;constant&quot;</span>, fill_value=<span class="hljs-string">&quot;NA&quot;</span>)
+<span class="hljs-comment"># categorical ordinal substantive</span>
+SimpleImputer(strategy=<span class="hljs-string">&quot;most_frequent&quot;</span>, add_indicator=<span class="hljs-literal">True</span>)
+</code></pre><h4>Baseline results</h4>
+<p>With some rough grid search for hyperparameters, these were the initial baseline results with <code>cv_params = {&quot;n_splits&quot;: 10}</code> and commit short hash <code>5a67de1</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Hyperparameters</th>
+<th>RMSE</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Ordinary Least Squares (OLS)</td>
+<td>n/a</td>
+<td>40986.26</td>
+</tr>
+<tr>
+<td>Lasso</td>
+<td><code>{&quot;alpha&quot;: 0.01}</code></td>
+<td>42407.55</td>
+</tr>
+<tr>
+<td>Ridge</td>
+<td><code>{&quot;alpha&quot;: 1}</code></td>
+<td>37591.72</td>
+</tr>
+<tr>
+<td>ElasticNet</td>
+<td><code>{&quot;l1_ratio&quot;: 1e-7,&quot;alpha&quot;: 1}</code></td>
+<td>37825.40</td>
+</tr>
+<tr>
+<td>RandomForest</td>
+<td><code>{&quot;n_estimators&quot;: 600, &quot;max_depth&quot;: 11}</code></td>
+<td>28678.29</td>
+</tr>
+<tr>
+<td>GradientBoost</td>
+<td><code>{&quot;n_estimators&quot;: 450, &quot;learning_rate&quot;: 0.2, &quot;max_depth&quot;: 2}</code></td>
+<td>24304.67</td>
+</tr>
+<tr>
+<td>AdaBoost</td>
+<td><code>{&quot;n_estimators&quot;: 650, &quot;learning_rate&quot;: 1}</code></td>
+<td>33985.59</td>
+</tr>
+</tbody></table>
+<p>We can see that GradientBoost outperforms all other models, and the linear models perform worse than the tree-based models on the baseline pipeline.</p>
+<p>At this stage, I decided to move forward with Ridge, RandomForest &amp; GradientBoost.</p>
+<p>I was curious to see if I could get the Ridge model working better with feature scaling.</p>
+<h3>Feature Engineering</h3>
+<h4>Custom scaling</h4>
+<p>This experiment was to implement custom scaling as described above, for all numeric features to improve linear models.
+As expected, we observe strong improvement in the Ridge model, but no improvement in the GradientBoost.</p>
+<p>commit short hash <code>5a67de1</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Preprocessor</th>
+<th>Hyperparameters</th>
+<th>RMSE</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Ridge</td>
+<td>Baseline</td>
+<td><code>{&quot;alpha&quot;: 1}</code></td>
+<td>37591.72</td>
+</tr>
+<tr>
+<td>Ridge</td>
+<td>Scaling</td>
+<td><code>{&quot;alpha&quot;: 1}</code></td>
+<td>32298.81</td>
+</tr>
+<tr>
+<td>GradientBoost</td>
+<td>Baseline</td>
+<td><code>{&quot;n_estimators&quot;: 450, &quot;learning_rate&quot;: 0.2, &quot;max_depth&quot;: 2}</code></td>
+<td>24437.50</td>
+</tr>
+<tr>
+<td>GradientBoost</td>
+<td>Scaling</td>
+<td><code>{&quot;n_estimators&quot;: 450, &quot;learning_rate&quot;: 0.2, &quot;max_depth&quot;: 2}</code></td>
+<td>24877.34</td>
+</tr>
+</tbody></table>
+<p>At this point, I decided to move forward just with GradientBoost, due to its performance.</p>
+<h4>Ablation</h4>
+<p>I attempted a number of different ablation strategies with GradientBoost and couldn&#39;t improve on the score. In practice, Gradient Boosting proved robust to feature ablation; removing correlated or weak features did not improve validation RMSE.</p>
+<h4>Computed features</h4>
+<p>In this experiment, I introduce 2 new features:</p>
+<ul>
+<li>Total square footage: <code>TotalSF = 1stFlrSF + 2ndFlrSF + TotalBsmtSF</code>
+Square footage per room above ground: <code>SqftPerRmAbvGr = TotalSF / (TotRmsAbvGrd + FullBath)</code></li>
+</ul>
+<p>commit short hash <code>5a67de1</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Preprocessor</th>
+<th>Hyperparameters</th>
+<th>RMSE</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GradientBoost</td>
+<td>Baseline</td>
+<td><code>{&quot;n_estimators&quot;: 450, &quot;learning_rate&quot;: 0.2, &quot;max_depth&quot;: 2}</code></td>
+<td>24426.31</td>
+</tr>
+<tr>
+<td>GradientBoost</td>
+<td>Computed</td>
+<td><code>{&quot;n_estimators&quot;: 450, &quot;learning_rate&quot;: 0.2, &quot;max_depth&quot;: 2}</code></td>
+<td>23962.42</td>
+</tr>
+</tbody></table>
+<p>We observe that these computed features do improve GradientBoost. GradientBoost benefits from computed feature interaction more effectively than any ablation or scaling.</p>
+<h3>Final tuning</h3>
+<p>Now with GradientBoost running on the Computed Values Preprocessor, I went forward with some final tuning.
+Sticking with cross validation <code>n_splits=10</code>, I was able to grid search improved parameters for GradientBoost:</p>
+<p>commit short hash <code>5a67de1</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Preprocessor</th>
+<th>Hyperparameters</th>
+<th>RMSE</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GradientBoost</td>
+<td>Computed</td>
+<td><code>{&quot;n_estimators&quot;: 500, &quot;learning_rate&quot;: 0.2, &quot;max_depth&quot;: 2}</code></td>
+<td>23364.31</td>
+</tr>
+</tbody></table>
+<p>This was the final tuned model, achieving an RMSE of $23,364.31 under 10-fold cross-validation.</p>
+<h2>Submission</h2>
+<p>The final model is stored in <code>src/ames/models/best.py</code>
+The predictions can be run with:</p>
+<pre><code class="hljs language-bash"><span class="hljs-comment"># Create submission.csv in folder</span>
+conda activate ames
+python ./src/ames/models/best.py
+</code></pre><h2>Learnings</h2>
+<p>I learned a huge amount on this project. Beforehand I had never run any ML models, and I had never entered into a Kaggle competition. I learned from scratch all about:</p>
+<ul>
+<li>Linear regression with OLS, Lasso, Ridge</li>
+<li>Tree-based regression with Random Forest and Gradient Boost</li>
+<li>EDA, sparsity, distributions</li>
+<li>Data cleaning and imputation</li>
+<li>Feature engineering and baseline testing</li>
+<li>Correlation, both with regression and Mutual Information</li>
+<li>Encoding strategies</li>
+<li>python packages <code>sklearn</code> ,<code>pandas</code>, <code>scipy</code></li>
+<li>Preprocessor pipelines</li>
+<li>Feature dicts</li>
+<li>Hyperparameter tuning</li>
+<li>Cross Validation</li>
+</ul>
+<p>The biggest surprise to me was how much time I had to spend on preprocessing compared to running models. Perhaps 70% of the time spent was in EDA and preprocessing. I also had to spend a lot of time understanding the architecture of the models to gain an intuitive sense of how to improve their performance, for example why scaling improves linear models but not tree-based models.</p>
+<h3>What I didn’t focus on</h3>
+<ul>
+<li>Extensive leaderboard tuning</li>
+<li>Advanced boosting libraries (XGBoost / LightGBM)</li>
+<li>Ensembling or stacking</li>
+</ul>
+<p>These were deliberately avoided to keep the focus on fundamentals.</p>
+<p>If I were to take this further I might look into:</p>
+<ul>
+<li>XGBoost / LightGBM</li>
+<li>Target encoding for Neighborhood</li>
+<li>Bayesian hyperparameter search</li>
+<li>Out-of-fold stacking</li>
+<li>SHAP for interpretability</li>
+</ul>
+<h3>Key Takeaways</h3>
+<ul>
+<li>Preprocessing is where all your time goes</li>
+<li>Tree models love feature interactions</li>
+<li>Linear models love well-considered scaling</li>
+</ul>
+
     </content>
   </container>
 </body>
