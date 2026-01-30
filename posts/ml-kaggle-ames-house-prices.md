@@ -1,5 +1,3 @@
-# Project Report
-
 ## Summary
 
 In this project, I built a full end-to-end machine learning pipeline on the [Kaggle Ames House Prices](https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques) dataset.
@@ -33,6 +31,7 @@ The datasets are in good condition. Their columns match (apart from the target `
 Quick missing and sparse checks on the combined training and test data.
 We can see that there are missing values for several features. (yellow indicates missing/sparse values)
 ![](../media/missing_values_heatmap.png)
+
 ![](../media/sparse_values_heatmap.png)
 
 This directed me to an imputation strategy for all features, categorising all features into:

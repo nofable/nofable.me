@@ -3,6 +3,7 @@ This post is for you if you are an software engineer who finds it hard to write 
 Perhaps it feels like a tiresome, form-filling process. Perhaps you just want to start writing code and get moving without the added paperwork.
 
 In this post, I set out a simple guide for writing better TDDs. If done well, TDDs have several benefits - They drive alignment, reduce ambiguity and save a bunch of time by avoiding missteps. It's a key skill of a competent engineer.
+
 ## Framing
 A TDD is a document that specifies the technical design for a given project. Software engineers should ideally write one for almost every project. They typically accompany a Product Requirements Document (PRD).
 
@@ -56,7 +57,7 @@ In short, the process for Step 1 looks like this:
 
 ![](../media/Better_TDD_Step_1.png)
 
-#### Sections in Step 1
+### Sections in Step 1
 The Context section should be concise and specific. Just one paragraph can be enough. Wider context should be detailed elsewhere, perhaps in a linked PRD.
 
 For the Requirements section, we should aim to be highly specific on each requirement and consider what is in scope or out of scope. We should then closely guard the scope. We might do some technical exploration to investigate a requirement, but this should be considered throwaway code. We might need to talk to XFN partners to understand the feasibility of our requirements. Defining Requirements should feel like a collaborative, iterative back-and-forth, where requirements arrive in focus as discussions develop.
@@ -64,7 +65,7 @@ For the Requirements section, we should aim to be highly specific on each requir
 The Open Questions section is the driving force behind Step 1. Let's get our questions written down with a date and author next to them. Let's proactively seek answers, setting up meetings and chasing people until we have answers. When we get answers, let's put a date and a name next to the answer so we know when and who it came from.
 
 By the end of Step 1, we should have full alignment with the Project Drive on the requirements, and a complete understanding of why we are doing the project.
-#### Step 1 - Common Failure Modes
+### Step 1 - Common Failure Modes
 *Not getting alignment from the Project Driver* - If we don't involve the project driver, we won't have alignment on the requirements of the project. This can come back to bite later when they come to us and say "Why are we doing this project? I thought we were building this other thing?".
 
 *Not including all key stakeholders in Step 1* - Including stakeholders like Design or QA in Step 1 may feel intimidating, but it's far more challenging to adjust later if we miss their key insights at the start.
@@ -92,7 +93,7 @@ In short, the process for Step 2 looks like this:
 ![](../media/Better_TDD_Step_2.png)
 
 By the end of Step 2, we should have alignment with a diverse set of engineers for our solution. A great side-effect of doing Step 2, is that engineers know the project when they review our diffs. They won't look blankly at our diffs, wondering what on earth we are up to.
-#### Step 2 - Common Failure Modes
+### Step 2 - Common Failure Modes
 *Not developing multiple solutions* - Often we have a solution in mind from the beginning of a project. We shut ourselves down to other options. This might mean we miss out on a simpler or more elegant solution.
 
 Let's focus on the requirements and be open minded about different solutions.
@@ -123,7 +124,7 @@ In short, the process for Step 3 is as follows:
 ![](../media/Better_TDD_Step_3.png)
 
 By the end of Step 3, we should have alignment with our manager on our Breakdown, Milestones and Roadmap. We can now embark on our implementation.
-#### Step 3 - Common Failure Modes
+### Step 3 - Common Failure Modes
 *Not breaking down the project* - Often we feel we can just start coding and the project will reveal itself to us. But skipping the breakdown means that we can't parallelise the project by working with other team members. It means we can't identify dependencies between work and plan accordingly.
 
 *Not identifying milestones* - Milestones help communicate progress, or lack of it. With milestones, we can track whether or not a project is going to plan, and react accordingly. Without milestones, Managers lose visibility on a project. They are left unable to help course-correct when things start going wrong. During the project, we should therefore frequently revisit our milestones to check if the project is on track. If the project is at risk of slipping, we should communicate it.

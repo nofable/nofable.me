@@ -58,12 +58,12 @@ This book does requires some prior knowledge. Although Nielsen suggests that the
 	- numpy
 	- matplotlib
 ## Learnings
-#### Perceptron
+### Perceptron
 A Perceptron takes binary input and produces binary output. Given and input vector $x$, a weights vector $w$, and a bias $b$, the output is defined as:
 $$
 output = \begin{cases} 0 &\text{if } w \cdot x + b \leq 0 \\ 1 &\text{if } w \cdot x + b \gt 0 \end{cases}
 $$
-#### Sigmoid Neuron
+### Sigmoid Neuron
 A Sigmoid Neuron is similar in structure to a Perceptron but differs in a crucial way: instead of producing a hard binary output, it produces a continuous output between 0 and 1.
 
 The Neuron computes the same weighted sum:  $z = w \cdot x + b$
@@ -76,9 +76,9 @@ Unlike a Perceptron:
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Logistic-curve.svg/2560px-Logistic-curve.svg.png)
 
 This function is especially useful because it is smooth and differentiable everywhere. Small changes in the weights or bias lead to small changes in the output.
-#### MNIST Dataset
+### MNIST Dataset
 The MNIST dataset is a set of handwritten digits, where each image is grayscale and sized at 28x28 pixels. It consists of 60,000 training images and 10,000 test images. For many years, MNIST served as the standard benchmark for evaluating neural network performance.
-#### Cost functions (also called Loss)
+### Cost functions (also called Loss)
 Suppose we have a function (or neural network) that, for a given input $x$, is expected to produce the output $y$., but the actual output is $a(x)$, then a cost function is designed to quantify how far away $a(x)$ is from $y$.
 
 Intuitively:
@@ -98,7 +98,7 @@ $n$ is total number of training inputs
 $y(x)$ is expected output for input $x$
 $a(x)$ is output when input $x$
 ‖v‖ is length function (Euclidean Norm) for a vector $v$
-#### Gradient Descent
+### Gradient Descent
 Gradient Descent is an optimization algorithm that iteratively takes small steps in the direction of steepest descent to minimize a cost function.
 
 Suppose we have a cost function $C(v)$, where each($(v_i,...,v_m)$ represents the parameters of a model. For each $v_i$, we can compute the partial derivative $\frac{\partial C}{\partial v_i}$. Collecting these derivatives gives the gradient vector
@@ -125,7 +125,7 @@ $$
 b_l \to b'_l = b_l - \frac{\eta}{m}\sum_j\frac{\partial C_{X_j}}{\partial b_l}
 $$
 where $C_{X_j}$ is the Cost associated with the $j$-th training example in the mini-batch.
-#### Backpropagation
+### Backpropagation
 Backprop is the workhorse algorithm that makes training deep neural networks practical. Naively computing gradients—for example, using finite differences—would require a full forward pass for every weight and bias, which is prohibitively expensive. Backprop avoids this by leveraging the chain rule to reuse intermediate results and compute all gradients in a single backward pass.
 
 Backprop efficiently computes the gradients of the cost function with respect to all weights and biases, by propagating error signals backward through the network after a forward pass, calculating each $\frac{\partial C_X}{\partial w}$ and $\frac{\partial C_X}{\partial b}$ as it goes.
@@ -184,7 +184,7 @@ $$
 Backprop is typically combined with SGD to run the learning algorithm, with SGD being responsible for using the backpropagation output to adjust the weights and biases.
 
 The algorithm being, for each $l = L, L-1,...,2$ update the weights according to the rule $w^l \to w^l - \frac{\eta}{m}\sum_x\delta^{x,l}(a^{x,l-1})^T$ and the biases according to the rule $b^l \to b^l - \frac{\eta}{m}\sum_x\delta^{x,l}$, where $m$ is the size of the mini-batch.
-#### Cross Entropy Cost
+### Cross Entropy Cost
 Cross-entropy is an alternative cost function designed to address the problem of slow learning when the output layer uses the sigmoid activation function. It can be thought of as a particularly well-matched pairing with sigmoid neurons.
 
 As we saw above, the error of an output neuron is defined as:
@@ -239,9 +239,9 @@ This definition has two important properties:
 - All activations are positive, allowing each output to be interpreted as the model’s estimated probability for a given class.
 
 Because of these properties, Softmax is especially well-suited for classification problems where exactly one class is correct.
-#### Log Likelihood
+### Log Likelihood
 When Softmax is used in the output layer, the negative Log Likelihood cost $C \equiv -\ln a^L_y$ is typically used. This is equivalent to categorical cross-entropy for one-hot targets. The Softmax + Log Likelihood pairing yields a particularly simple gradient, $\partial C/ \partial z^L_j=a^L_j−y_j$, which improves learning in much the same way that Cross Entropy does for Sigmoid outputs.
-#### Overfitting
+### Overfitting
 Overfitting is a well-known phenomenon in which a model fits the peculiarities of its training data too closely, rather than learning a generalizable structure that performs well on unseen data.
 
 Common strategies to mitigate overfitting include:
@@ -254,7 +254,7 @@ The roles of the different datasets are:
 - Training data: used to learn the model’s parameters (e.g., weights and biases).
 - Validation data: held out during training and used to tune hyperparameters and guide decisions such as early stopping.
 - Test data: used only after training is complete to evaluate how well the model generalizes to unseen data.
-#### Regularisation
+### Regularisation
 Regularisation techniques reduce overfitting by discouraging overly complex models. One common technique, known as Weight Decay or L2 Regularisation, adds an extra term to the cost function called the regularisation term. eg.
 $$
 C = -\frac{1}{n}\sum_{xj}\left[y_j\ln a^L_j + (1-y_j)\ln(1 - a^L_j)\right] + \frac{\lambda}{2n}\sum_ww^2
@@ -282,7 +282,7 @@ That is, the Sigmoid’s transition from 0 to 1 occurs over a narrower region of
 Crucially, this can reduce the cost without changing the decision boundary at all. The network becomes more and more “confident” in its predictions—even when those predictions are already correct.
 
 Without Regularisation, gradient descent can therefore keep reducing the lowering the training cost simply by increasing the size of the weights. The model fits the training data better and better in terms of confidence, but this often harms generalisation. Weight Decay prevents this runaway growth by penalising large weights, encouraging smoother decision functions that generalise better to unseen data.
-#### Weight Initialisation
+### Weight Initialisation
 Weight Initialisation is another way to improve learning. As we have seen before, with the Sigmoid function, neurons learn best when the weighted input $z = w \cdot x + b$ is close to $0$.
 
 For this reason, we want to initialise our random weights judiciously so that $z$ is likely to be near 0 at the start of training.
@@ -292,7 +292,7 @@ A natural approach is to choose $w$ to have mean $0$ and aim for standard deviat
 To acheive this, we initialise each weight with mean $0$ and a standard deviation of $1/ \sqrt n$ where $n$ in the number of input connections (neuron's fan-in).
 
 This initialisation scheme — often called Xavier (or Glorot) initialisation — helps keep activations in the sensitive, high-gradient region of the Sigmoid, leading to faster learning.
-#### Choosing Hyperparameters 
+### Choosing Hyperparameters 
 Choosing Hyperparameters is an unsatisfactory section, not because of how it is presented, but more because tuning hyperparameters appears to be an art rather than a science.
 
 I also got the sense that a lot of work has been done in this area since this book was written. For example, conducting grid search in hyperparameter space.
@@ -303,7 +303,7 @@ Nielsen does suggest several heuristic strategies that appear useful:
 - Consider a learning rate schedule that reduces $\eta$  when improvements in the cost begin to slow.
 - Set $\lambda$ to $0$ to start with and focus on tuning $\eta$ before introducing Regularisation.
 - Choose a mini-batch size that balances training speed against model performance.
-#### Vanishing/Exploding Gradient Problem
+### Vanishing/Exploding Gradient Problem
 To illustrate this, Nielsen presents an example of the gradient of the cost CCC with respect to a bias in an early layer of a four-layer network:
 
 In the deep network that Nielsen outlines in this book, he observes that earlier layers tend to learn more slowly than layers closer to the output. This phenomenon is known as the Vanishing Gradient Problem and arises naturally in certain network architectures, particularly those using sigmoid activation functions.
@@ -320,7 +320,7 @@ When $\sigma'(z)$ is plotted, one can see that it has max value of 0.25 when z i
 He assumes standard weight initialisation with mean of 0 and a standard deviation of 1, so the weights will usually satisfy $|w_j| < 1$ . Pairing each layer together, we observe that $|w_j\sigma'(z_j)| < \frac{1}{4}$ , so when the layers are then multiplied together, the results exponential decreases.
 
 The Exploding Gradient Problem is the complement. In certain network configurations, gradients can instead grow exponentially as they propagate backward.
-#### Convolutional Neural Networks (CNN)
+### Convolutional Neural Networks (CNN)
 Nielsen introduces convolutional neural networks (CNNs) in the final chapter to improve MNIST classification. Up to this point, the network flattens each 28×28 image into a vector of 784 inputs, where each value represents the grayscale intensity of a pixel.
 
 This representation discards important spatial information, such as pixel locality and relationships between neighboring pixels. For example, detecting a vertical edge requires comparing a pixel with the pixels above and below it. CNNs are designed to preserve and leverage this spatial structure.
@@ -339,7 +339,7 @@ As Nielsen notes, terminology can be somewhat loose, *"we sometimes call the map
 **Pooling** layers are typically applied after convolutional layers to reduce the spatial dimensions of the feature maps. Pooling typically operates over small local regions, say 2x2. In Max Pooling, the maximum value in each region is retained. Pooling reduces dimensionality.
 
 For example, a 28x28 input image convolved with three 5x5 filters produces three 24x24 feature maps. Applying 2x2 pooling to each feature map results in three 12x12 pooled maps.
-#### Code and Classification Accuracy
+### Code and Classification Accuracy
 I chose to write the `network3.py` in PyTorch rather than Theano, which Nielsen uses in his book. This is to align with industry best practices today. 
 
 I was able to reach 99.0% classification accuracy, short of what Nielsen was able to accomplish with his network.

@@ -1,6 +1,6 @@
 ![](../media/2025-12-24-095912_hyprshot.png)
 
-# Introduction
+## Introduction
 I started this project out of curiosity about Linux. Logging into transient cloud boxes wasn’t enough for me to really get my hands dirty, and neither was running virtual machines on my MacBook.
 
 I have always been a Macbook user. I very much enjoy using my Macbook M3 Air.
@@ -16,16 +16,16 @@ From the start it is always [Arch Linux](https://archlinux.org/). I am attracted
 When I first see [Omarchy](https://omarchy.org/), I am certainly inspired. My first reaction is that I should just install Omarchy. But then I realise it's a terrible idea, because then I don't get to play around and learn all the tech from the ground up. Someone else has had all learning.
 
 So I decide to follow a similar pattern to Omarchy - Arch Linux and Hyprland - but start from the bottom, with my own design choices.
-## Project goal
+### Project goal
 I set out on this project with a loose, top-level goal:
 - Configure a new laptop with Arch Linux and Hyprland to the point where I can code Rust in Neovim, and look things up on Chromium.
 
 I add to this goal along the way. I will revisit my goals in the Summary.
-# The Project
+## The Project
 *Warning. Please don't blindly copy my steps. I may have made mis-steps or mis-configurations. And surely the goal of anyone going through this process is to deep-learn the steps for themselves.*
-## Pre-Requisites
+### Pre-Requisites
 
-#### USB Drive
+####  USB Drive
 From a bit of pre-reading on the Arch Linux installation guide, I see I need an installation medium.
 
 I choose a USB Flash Drive since I can configure it on my Macbook and then insert it into the new Laptop.
@@ -34,7 +34,7 @@ I buy a basic one with this spec:
 - Memory storage capacity: 128 GB
 - Hardware interface: USB 3.2 Gen 1
 - Read speed: 400 Megabytes Per Second
-#### Laptop
+####  Laptop
 I buy a [Framework 13](https://frame.work/gb/en/laptop13) laptop. I choose it because it's a safe option. Good laptops are expensive, so I didn't want to take a risk here.
 
 Besides, I like the [philosophy](https://frame.work/gb/en/about) of Framework with the DIY, reparable attitude. I am certainly curious about doing the DIY build of the Framework 13.
@@ -55,12 +55,12 @@ This is the spec of the Framework 13 Laptop that I buy:
 It arrives and I assemble it. It is very beautifully packaged and the framework guide is very easy to follow. A pleasing experience. Assembling the laptop is a fun novelty, but not a big learning for me. You just clip a few bits together.
 
 The real learning starts when I am presented with this new laptop without an OS installed. This is the first time I've ever faced this situation. And I have a lot of learning to do.
-## Pre-Installation
-#### Arch Linux installation guide
+### Pre-Installation
+####  Arch Linux installation guide
 I follow the Arch Linux [installation guide](https://guides.frame.work/Guide/Arch+Linux+on+the+Framework+Laptop+13/398). The guide is fantastic, but it goes deep and doesn't offer a easy linear set of commands.
 
 Each step links through to other pages, full of potential options and pathways - *How do you want to partition your storage? Do you want encryption or not? If so, which encryption strategy will you choose?...* It is overwhelming, so I take it one step at a time. After all, I'm not here to do this quickly. I want to take the time to do the hard learning.
-#### Acquire an Installation Image
+####  Acquire an Installation Image
 I start, naturally, with [Section 1.1](https://wiki.archlinux.org/title/Installation_guide#Acquire_an_installation_image). I'm on my Macbook M3 Air. I need to download the Arch Linux Installation Image and flash it onto my USD Drive.
 
 I fall at the first hurdle. Arch's [download page](https://archlinux.org/download/) recommends you download the Install Image from BitTorrent. This means having a Torrent Client. I have never torrented before, so I decide to step past their recommendation, and just do a HTTP Direct Download from a mirror site. It feels a little defeatist to stumble on the very first step, but I decide BitTorrent can wait for another day.
@@ -73,7 +73,7 @@ shasum -a 256 ~/Downloads/archlinux-2025.11.01-x86_64.iso
 ```
 
 It matches. We can move forward.
-#### Prepare installation medium
+####  Prepare installation medium
 With the Install Image now downloaded on my Macbook, I need to follow [Section 1.3](https://wiki.archlinux.org/title/Installation_guide#Prepare_an_installation_medium) to flash it to the USB Drive, ready for installation.
 
 I navigate to Arch's USB Flash installation page, to the [In macOS](https://wiki.archlinux.org/title/USB_flash_installation_medium#In_macOS) section. To write the Image to my USB Drive, I use the command:
@@ -83,7 +83,7 @@ sudo dd if=/Users/william/Downloads/archlinux-2025.11.01-x86_64.iso of=/dev/rdis
 
 The parameter I look up is `bs=1m`, which means that the block size is 1 megabyte. ie. the program will read and write 1 megabyte at a time.
 
-#### Boot the Live Environment
+####  Boot the Live Environment
 With the Arch Install Image written to my USB Drive, I move onto [Section 1.4](https://wiki.archlinux.org/title/Installation_guide#Boot_the_live_environment), insert the USB Drive into my Framework 13 laptop, and try to boot from the USB Drive. 
 
 However, when I try to boot, the laptop says it can't boot from the USB. I revisit the Arch installation guide and there is a [blue info box](https://wiki.archlinux.org/title/Installation_guide#Boot_the_live_environment) stating that I need to disable Secure Boot. I kick myself for not reading the guide more carefully.
@@ -91,11 +91,11 @@ However, when I try to boot, the laptop says it can't boot from the USB. I revis
 To disable Secure Boot on my Framework 13, I continually tap F2 (not F12!) after pressing the power on button. F2 opens the admin UEFI firmware interface. From this admin menu I am able to find the setting to disable Secure Boot mode.
 
 I insert the USB Drive again and press the on button. It works! At this point, I now have a root user shell running from the Live Environment on the USB Drive.
-#### Set console keyboard layout and font
+####  Set console keyboard layout and font
 At this point, The installation guide [Section 1.5](https://wiki.archlinux.org/title/Installation_guide#Set_the_console_keyboard_layout_and_font) runs through a few commands to setup the console keyboard layout and font.I actually skip these steps since I am happy to operate in US keymap, and the font is fit for purpose.
 
 In [Section 1.6](https://wiki.archlinux.org/title/Installation_guide#Verify_the_boot_mode) I check the UEFI bitness and it returns 64. No issues here.
-#### Connect to the internet from live environment
+####  Connect to the internet from live environment
 I'm at home. So I follow the instruction in [Section 1.7](https://wiki.archlinux.org/title/Installation_guide#Connect_to_the_internet) and use `iwctl` to connect to my Wi-Fi network.
 ```bash
 # from https://man.archlinux.org/man/iwctl.1
@@ -111,7 +111,7 @@ ping ping.archlinux.org
 ```
 
 It confuses me why I need to setup my internet connection at this point. But the following step in the guide explains it. I need to update the system clock to be accurate and this requires internet. Inaccurate system clocks cause problems with TLS certificates and package signature verification, which will both be needed when I download new packages in a few steps time. 
-#### Partitioning storage
+####  Partitioning storage
 In order to install Arch Linux onto the storage drive of my Framework 13, I need to plan out how to organise my storage drive. This is [Section 1.9](https://wiki.archlinux.org/title/Installation_guide#Partition_the_disks).
 
 This step blocks my progress for a few days. I need to learn how partitioning works, what my options are for partitioning, and what my personal requirements are.
@@ -168,7 +168,7 @@ p               # check layout
 w               # write changes
 ```
 
-#### Format and encrypt the partitions
+####  Format and encrypt the partitions
 I arrive at [Section 1.10](https://wiki.archlinux.org/title/Installation_guide#Format_the_partitions). I am tempted to rush ahead with formatting the partitions, but I then remember that I want to encrypt my partitions.
 
 This is mostly driven by curiosity rather than hard necessity, but equally, there is no harm in having encrypted storage.
@@ -210,11 +210,11 @@ mount --mkdir /dev/nvme0n1p1 /mnt/boot
 lsblk
 ```
 
-#### Checkpoint
+####  Checkpoint
 At this point, I have partitioned my storage drive, setup LUKS encryption for root and home partitions, and mounted all the required filesystems onto the Live Environment.
-## Installation
+### Installation
 I skip [Section 2.1](https://wiki.archlinux.org/title/Installation_guide#Select_the_mirrors), happy to use the pre-configured mirrors.
-#### pacstrap
+####  pacstrap
 For [Section 2.2](https://wiki.archlinux.org/title/Installation_guide#Install_essential_packages) I decide to keep things simple. I choose to install `base`, `linux`, `linux-firmware`, `vim` and `networkmanager` for the following reasons:
 - `base`: mandatory to install. minimal Arch system.
 - `linux`: required to boot system. It's the Kernel.
@@ -228,7 +228,7 @@ pacstrap -K /mnt base linux linux-firmware vim networkmanager
 ```
 
 Everything else can be installed by pacman from the new system.
-#### fstab
+####  fstab
 The [next step](https://wiki.archlinux.org/title/Installation_guide#Fstab) is to configure `/etc/fstab` on the target environment so the kernel can know about the different partitions at boot time.
 
 I get very confused here, because the [LUKS on a Partition with TPM2 and Secure Boot](https://wiki.archlinux.org/title/Dm-crypt/Encrypting_an_entire_system#LUKS_on_a_partition_with_TPM2_and_Secure_Boot) guide explicitly states that I can skip the fstab step of the normal installation guide.
@@ -242,13 +242,13 @@ So I run this command to create /etc/fstab:
 # generaate filesystem table with UUID (-U) by scanning /mnt and then outputting to /mnt/etc/fstab
 genfstab -U /mnt >> /mnt/etc/fstab
 ```
-#### chroot
+####  chroot
 I then change root into the target environment:
 ```bash
 # change file system root to /mnt 
 arch-chroot /mnt
 ```
-#### Configure time and locale
+####  Configure time and locale
 I follow Sections [3.3](https://wiki.archlinux.org/title/Installation_guide#Time) to [3.5](https://wiki.archlinux.org/title/Installation_guide#Network_configuration) to do some simple time and locale config to get the new system setup.
 ```bash
 ln -sf /usr/share/zoneinfo/Europe/London /etc/localtime
@@ -266,7 +266,7 @@ echo "fw13" > /etc/hostname
 echo "KEYMAP=uk" >> /etc/vconsole.conf
 ```
 
-#### Configure load sequence
+####  Configure load sequence
 **mkinitcpio**
 The installation guide in section [3.6](https://wiki.archlinux.org/title/Installation_guide#Initramfs) states that creating a new `initramfs` image is not required.
 
@@ -317,22 +317,22 @@ nb. HOME_LUKS_UUID comes from the command:
 ```bash
 cryptsetup luksUUID /dev/nvme0n1p3
 ```
-#### Set password and reboot
+####  Set password and reboot
 Final basic steps before reboot...
 ```bash
 passwd # follow instructions to setup root password
 exit # exit chroot enviroment
 reboot # and remove USB Drive!
 ```
-#### Checkpoint
+####  Checkpoint
 At this point I have made it to a full LUKS encrypted setup and I can boot Arch Linux from my Framework 13 without the USB Drive.
 
 However, I still have to enter the LUKS encryption password on boot. Secure Boot is also not enabled. 
 
 So there are a few more post-installation steps still to go to hit my requirements.
-## Post-Installation
+### Post-Installation
 I boot up the new system without the USB Drive.
-#### Connect to Wi-Fi
+####  Connect to Wi-Fi
 First thing to get sorted on the new system is the internet connection. I don't have `iwctl` now, so we use the `networkmanager` package that I installed with `pacstrap` earlier.
 
 ```bash
@@ -342,7 +342,7 @@ nmcli device wifi list
 nmcli device wifi connect SSID password PASSWORD
 nmcli connection modify SSID connection.autoconnect yes
 ```
-#### TPM & Secure Boot
+####  TPM & Secure Boot
 **sbctl**
 I follow Section [3.7](https://wiki.archlinux.org/title/Dm-crypt/Encrypting_an_entire_system#Secure_Boot) of the LUKS setup guide to sign the boot loader executables and the EFI binary. Since it is recommended as the easy path, I choose to use Secure Boot Manager `sbctl`.
 ```bash
@@ -384,9 +384,9 @@ systemd-cryptenroll --tpm2-device=auto /dev/nvme0n1p3
 mkinitcpio -P
 ```
 
-#### Checkpoint
+####  Checkpoint
 At this point, I have hit all my requirements! I have encrypted volumes, that can be unlocked by the TPM in Secure Boot. I have a separate root and home volume. Time for some further post-installation setup.
-#### Setup my user
+####  Setup my user
 Very standard practice - don't operate as root. Create a user and use sudo for elevating permission.
 ```bash
 useradd -m nofable
@@ -404,7 +404,7 @@ logout
 login as nofable
 ```
 
-#### Firewall setup with nftables
+####  Firewall setup with nftables
 I want a basic firewall setup. I choose to use [`nftables`](https://wiki.archlinux.org/title/Nftables) after researching a few options like `ufw` and `iptables`.
 
 I choose it because it is the upgrade to `iptables` but not a higher level abstraction like [`ufw`](https://wiki.archlinux.org/title/Uncomplicated_Firewall). So I install it:
@@ -417,18 +417,18 @@ sudo systemctl start nftables
 I then do a bunch of research into `nftables`, learning about rulesets, chains, rules. I start to craft my own config, but then I see there is already a config file at `/etc/nftables.conf`.
 
 To my delight, the installation of `nftables` with pacman installs a default config into `/etc/nftables.conf`, which does everything I need. So I just leave it as it is.
-#### Checkpoint
+####  Checkpoint
 At this point, I have a functioning Arch Linux OS running on my Framework 13. Next step is to get the GUI working and get to a point where I can do some programming using my new laptop.
-## GUI and further setup
+### GUI and further setup
 Having chosen early on to use [Hyprland](https://hypr.land/), I spend a number of days learning about all the different options and modules on offer.
-#### Design Principles
+####  Design Principles
 I come up with a set of principles for myself to help guide my decision making:
 - I want all my config to be version controlled.
 - I like logging in via a shell. It reminds me that GUI is just a feature of an OS. I therefore don't need a Screen Manager.
 - I want to stick with Arch Linux's philosophy of simplicity and minimalism. Install the minimum set of packages to reach a delightful, aesthetically pleasing developer experience.
 - Use the terminal for as much as possible.
 - Everything should be themed in [catppuccin](https://catppuccin.com/ports/).
-#### Tooling choices
+####  Tooling choices
 I decide to use [Stow](https://www.gnu.org/software/stow/manual/stow.html) to manage my configs. And here are my decisions of what packages to use:
 
 Terminal

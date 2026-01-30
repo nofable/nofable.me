@@ -46,7 +46,7 @@
       <h1>Framework 13 Arch Linux Hyprland setup</h1>
 
       <p><img src="./media/2025-12-24-095912_hyprshot.png" /></p>
-<h1>Introduction</h1>
+<h2>Introduction</h2>
 <p>I started this project out of curiosity about Linux. Logging into transient cloud boxes wasn’t enough for me to really get my hands dirty, and neither was running virtual machines on my MacBook.</p>
 <p>I have always been a Macbook user. I very much enjoy using my Macbook M3 Air.</p>
 <p>Over the last year, I am getting more and more into terminal-based development, leveraging tools like <a href="https://github.com/junegunn/fzf">fzf</a>, <a href="https://neovim.io/">neovim</a> and <a href="https://starship.rs/">starship</a> on my Macbook. </p>
@@ -55,15 +55,15 @@
 <p>From the start it is always <a href="https://archlinux.org/">Arch Linux</a>. I am attracted to the simple minimalist philosophy. The aesthetics of some the leading Linux GUI distros depress me a bit. My project needs to excite me, not depress me.</p>
 <p>When I first see <a href="https://omarchy.org/">Omarchy</a>, I am certainly inspired. My first reaction is that I should just install Omarchy. But then I realise it&#39;s a terrible idea, because then I don&#39;t get to play around and learn all the tech from the ground up. Someone else has had all learning.</p>
 <p>So I decide to follow a similar pattern to Omarchy - Arch Linux and Hyprland - but start from the bottom, with my own design choices.</p>
-<h2>Project goal</h2>
+<h3>Project goal</h3>
 <p>I set out on this project with a loose, top-level goal:</p>
 <ul>
 <li>Configure a new laptop with Arch Linux and Hyprland to the point where I can code Rust in Neovim, and look things up on Chromium.</li>
 </ul>
 <p>I add to this goal along the way. I will revisit my goals in the Summary.</p>
-<h1>The Project</h1>
+<h2>The Project</h2>
 <p><em>Warning. Please don&#39;t blindly copy my steps. I may have made mis-steps or mis-configurations. And surely the goal of anyone going through this process is to deep-learn the steps for themselves.</em></p>
-<h2>Pre-Requisites</h2>
+<h3>Pre-Requisites</h3>
 <h4>USB Drive</h4>
 <p>From a bit of pre-reading on the Arch Linux installation guide, I see I need an installation medium.</p>
 <p>I choose a USB Flash Drive since I can configure it on my Macbook and then insert it into the new Laptop.</p>
@@ -94,7 +94,7 @@
 </ul>
 <p>It arrives and I assemble it. It is very beautifully packaged and the framework guide is very easy to follow. A pleasing experience. Assembling the laptop is a fun novelty, but not a big learning for me. You just clip a few bits together.</p>
 <p>The real learning starts when I am presented with this new laptop without an OS installed. This is the first time I&#39;ve ever faced this situation. And I have a lot of learning to do.</p>
-<h2>Pre-Installation</h2>
+<h3>Pre-Installation</h3>
 <h4>Arch Linux installation guide</h4>
 <p>I follow the Arch Linux <a href="https://guides.frame.work/Guide/Arch+Linux+on+the+Framework+Laptop+13/398">installation guide</a>. The guide is fantastic, but it goes deep and doesn&#39;t offer a easy linear set of commands.</p>
 <p>Each step links through to other pages, full of potential options and pathways - <em>How do you want to partition your storage? Do you want encryption or not? If so, which encryption strategy will you choose?...</em> It is overwhelming, so I take it one step at a time. After all, I&#39;m not here to do this quickly. I want to take the time to do the hard learning.</p>
@@ -219,7 +219,7 @@ mount --<span class="hljs-built_in">mkdir</span> /dev/nvme0n1p1 /mnt/boot
 lsblk
 </code></pre><h4>Checkpoint</h4>
 <p>At this point, I have partitioned my storage drive, setup LUKS encryption for root and home partitions, and mounted all the required filesystems onto the Live Environment.</p>
-<h2>Installation</h2>
+<h3>Installation</h3>
 <p>I skip <a href="https://wiki.archlinux.org/title/Installation_guide#Select_the_mirrors">Section 2.1</a>, happy to use the pre-configured mirrors.</p>
 <h4>pacstrap</h4>
 <p>For <a href="https://wiki.archlinux.org/title/Installation_guide#Install_essential_packages">Section 2.2</a> I decide to keep things simple. I choose to install <code>base</code>, <code>linux</code>, <code>linux-firmware</code>, <code>vim</code> and <code>networkmanager</code> for the following reasons:</p>
@@ -300,7 +300,7 @@ reboot <span class="hljs-comment"># and remove USB Drive!</span>
 <p>At this point I have made it to a full LUKS encrypted setup and I can boot Arch Linux from my Framework 13 without the USB Drive.</p>
 <p>However, I still have to enter the LUKS encryption password on boot. Secure Boot is also not enabled. </p>
 <p>So there are a few more post-installation steps still to go to hit my requirements.</p>
-<h2>Post-Installation</h2>
+<h3>Post-Installation</h3>
 <p>I boot up the new system without the USB Drive.</p>
 <h4>Connect to Wi-Fi</h4>
 <p>First thing to get sorted on the new system is the internet connection. I don&#39;t have <code>iwctl</code> now, so we use the <code>networkmanager</code> package that I installed with <code>pacstrap</code> earlier.</p>
@@ -364,7 +364,7 @@ login as nofable
 <p>To my delight, the installation of <code>nftables</code> with pacman installs a default config into <code>/etc/nftables.conf</code>, which does everything I need. So I just leave it as it is.</p>
 <h4>Checkpoint</h4>
 <p>At this point, I have a functioning Arch Linux OS running on my Framework 13. Next step is to get the GUI working and get to a point where I can do some programming using my new laptop.</p>
-<h2>GUI and further setup</h2>
+<h3>GUI and further setup</h3>
 <p>Having chosen early on to use <a href="https://hypr.land/">Hyprland</a>, I spend a number of days learning about all the different options and modules on offer.</p>
 <h4>Design Principles</h4>
 <p>I come up with a set of principles for myself to help guide my decision making:</p>
