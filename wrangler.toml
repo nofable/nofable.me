@@ -1,0 +1,5 @@
+name = "nofable-me"
+compatibility_date = "2026-12-30"
+
+# This tells Wrangler where your static files are
+pages_build_output_dir = "out"
