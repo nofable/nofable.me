@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/william-woodhead/williamwoodhead.com.git"
+    "url": "git+https://github.com/nofable/nofable.me.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/william-woodhead/williamwoodhead.com/issues"
+    "url": "https://github.com/nofable/nofable.me/issues"
   },
-  "homepage": "https://github.com/william-woodhead/williamwoodhead.com#readme",
+  "homepage": "https://github.com/nofable/nofable.me#readme",
   "dependencies": {
     "handlebars": "^4.7.8",
     "highlight.js": "^11.11.1",
