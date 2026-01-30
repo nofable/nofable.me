@@ -55,7 +55,7 @@ In short, the process for Step 1 looks like this:
 3. Go and talk to the Project Driver to get answers for our Open Questions.
 4. Repeat all steps until we don't have any more Open Questions.
 
-![](../media/Better_TDD_Step_1.png)
+![](./media/Better_TDD_Step_1.png)
 
 ### Sections in Step 1
 The Context section should be concise and specific. Just one paragraph can be enough. Wider context should be detailed elsewhere, perhaps in a linked PRD.
@@ -90,7 +90,7 @@ In short, the process for Step 2 looks like this:
 3. Review the solutions with a diverse range of engineers and discuss tradeoffs. Have an opinion.
 4. Repeat all steps until engineers have an alignment on a single solution.
 
-![](../media/Better_TDD_Step_2.png)
+![](./media/Better_TDD_Step_2.png)
 
 By the end of Step 2, we should have alignment with a diverse set of engineers for our solution. A great side-effect of doing Step 2, is that engineers know the project when they review our diffs. They won't look blankly at our diffs, wondering what on earth we are up to.
 ### Step 2 - Common Failure Modes
@@ -121,7 +121,7 @@ In short, the process for Step 3 is as follows:
 4. Discuss how many engineers need to be allocated to the project.
 5. Try (and inevitably fail) to plot the project onto a Roadmap.
 
-![](../media/Better_TDD_Step_3.png)
+![](./media/Better_TDD_Step_3.png)
 
 By the end of Step 3, we should have alignment with our manager on our Breakdown, Milestones and Roadmap. We can now embark on our implementation.
 ### Step 3 - Common Failure Modes

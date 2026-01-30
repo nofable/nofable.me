@@ -1,4 +1,6 @@
-![](../media/2025-12-24-095912_hyprshot.png)
+![](./media/2025-12-24-095912_hyprshot.png)
+
+Here is the [Github repo](https://github.com/nofable/fw13-arch-hypr-config) for project code.
 
 ## Introduction
 I started this project out of curiosity about Linux. Logging into transient cloud boxes wasn’t enough for me to really get my hands dirty, and neither was running virtual machines on my MacBook.
@@ -16,6 +18,7 @@ From the start it is always [Arch Linux](https://archlinux.org/). I am attracted
 When I first see [Omarchy](https://omarchy.org/), I am certainly inspired. My first reaction is that I should just install Omarchy. But then I realise it's a terrible idea, because then I don't get to play around and learn all the tech from the ground up. Someone else has had all learning.
 
 So I decide to follow a similar pattern to Omarchy - Arch Linux and Hyprland - but start from the bottom, with my own design choices.
+
 ### Project goal
 I set out on this project with a loose, top-level goal:
 - Configure a new laptop with Arch Linux and Hyprland to the point where I can code Rust in Neovim, and look things up on Chromium.

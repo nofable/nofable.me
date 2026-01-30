@@ -1,3 +1,5 @@
+Here is the [Github repo](https://github.com/nofable/ml-tabular) for the project code.
+
 ## Summary
 
 In this project, I built a full end-to-end machine learning pipeline on the [Kaggle Ames House Prices](https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques) dataset.
@@ -16,6 +18,7 @@ For cross-validation, RMSE is reported on the original SalePrice scale for inter
 
 ## Result
 1 entry. Scored 0.13339. 1964 on Leaderboard.
+Here is the [Github repo](https://github.com/nofable/ml-tabular).
 
 ## Analysis
 
@@ -30,9 +33,9 @@ The datasets are in good condition. Their columns match (apart from the target `
 #### Missing values and feature categorisation
 Quick missing and sparse checks on the combined training and test data.
 We can see that there are missing values for several features. (yellow indicates missing/sparse values)
-![](../media/missing_values_heatmap.png)
+![](./media/missing_values_heatmap.png)
 
-![](../media/sparse_values_heatmap.png)
+![](./media/sparse_values_heatmap.png)
 
 This directed me to an imputation strategy for all features, categorising all features into:
 1. `numeric` or `categorical`
@@ -142,25 +145,25 @@ The following image shows top correlating numeric features across both training 
 
 Seeing this heatmap sparked ideas on feature ablation tests for the Feature Engineering phase.
 
-![](../media/top_20_feature2feature_corr.png)
+![](./media/top_20_feature2feature_corr.png)
 
 The following image shows the features that correlate most with the target `SalePrice`. Looking at the first column, we can see that `OverallQual` and `GrLivArea` correlate most highly. These are likely to be strong predictors of `SalePrice` in the modelling phase.
-![](../media/top_20_feature2target_corr.png)
+![](./media/top_20_feature2target_corr.png)
 
 This following image shows a visual-check overview of how each feature scatterplots with `SalePrice`. I found this very useful to see which features have high sparsity, which are discrete, and which show strong linear correlation. Looking at this chart, it became clear to me that:
 - `MSSubClass` is a categorical in disguise.
 - `MoSold` and `YrSold` should be dropped since they exhibit no variation on `SalePrice`.
   
-![](../media/feature_to_target_scatters.png)
+![](./media/feature_to_target_scatters.png)
 
 The following image shows the top Mutual Information scores for numerics features against `SalePrice`. Mutual Information captures both linear and non-linear dependency by estimating how much knowing one variable reduces uncertainty about the other. Again we can see some familiar features topping the list. 
-![](../media/num2target_top_20_mi.png)
+![](./media/num2target_top_20_mi.png)
 
 #### Categorical feature correlation
 The following image shows the top Mutual Information scores for categorical features against `SalePrice`. Here we can see for the first time how strong `Neighborhood` is as a predictor of `SalePrice`.
 
 This checks out intuitively. Anyone who has thought about house prices for more than a few seconds knows that *location* really matters when it comes to house prices.
-![](../media/cat2target_top_20_mi.png)
+![](./media/cat2target_top_20_mi.png)
 
 #### Target encoding
 Target encoding was straight-forward since Kaggle specified it in the competition brief. They want competitors to predict the logarithm of the target. I did some analysis to see why this makes sense.
@@ -169,7 +172,7 @@ When we look at the distribution for `SalePrice` we observe that it is never neg
 
 The left hand side is the distribution of `SalePrice`. The right hand side of this image is the log distribution. We can see that the log distribution is more balanced, and the effect of the outliers has been reduced. This makes it more suitable for linear modelling.
 
-![](../media/target_log_encoding.png)
+![](./media/target_log_encoding.png)
 
 #### Categorical encoding
 Categorical features can be split into `ordinal` and `nominal` features. For the `ordinal` features, the decision was straightforward. I would use `OrdinalEncoder`. For the `nominal` features, the options are either to:

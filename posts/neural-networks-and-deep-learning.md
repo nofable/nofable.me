@@ -1,3 +1,5 @@
+[Github repo](https://github.com/nofable/nielsen-deep-learning) for accompanying scripts.
+
 ## Overview
 In this post, I note down my learnings from reading Neural Networks and Deep Learning by Michael Nielsen. At the end, I also provide the code I wrote in PyTorch, and the classification accuracy I was able to achieve for MNIST.
 
@@ -346,7 +348,7 @@ I was able to reach 99.0% classification accuracy, short of what Nielsen was abl
 
 One note is that PyTorch applies L2 Regularisation via the `weight_decay` parameter of the SGD method, rather than adding a parameter to the Cost function.
 
-![](../media/minst_classification_accuracy.png)
+![](./media/minst_classification_accuracy.png)
 
 *Graph of accuracy by epoch via matplotlib*
 

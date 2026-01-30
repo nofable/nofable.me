@@ -33,7 +33,7 @@ body {
   font-optical-sizing: auto;
   background-color: var(--ctp-mocha-base);
   color: var(--ctp-mocha-text);
-  margin: 100px 20px;
+  margin: 50px 20px;
   line-height: 1.2;
   font-size: 16px;
 }
@@ -184,15 +184,15 @@ pre>code {
   overflow-x: scroll;
 }
 
-a.leader:hover {
+.leader-mug:hover {
   border-bottom: 0px;
 }
 
-a.leader:visited {
+.leader-mug:visited {
   border-bottom: 0px;
 }
 
-a.leader:visited:hover {
+.leader-mug:visited:hover {
   border-bottom: 0px;
 }
 
@@ -200,18 +200,27 @@ a.leader:visited:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 40px;
 }
 
-.leader img {
+.leader-mug {
   display: block;
   max-width: 80px;
   border-radius: 10px;
   margin-bottom: 10px;
+  overflow: hidden;
 }
 
-.leader p {
-  border-bottom: 0px;
-  text-decoration: none;
+.leader-details {
+  display: flex;
+  align-items: center;
+}
+
+.leader-github {
+  width: 30px;
+  border-radius: 1000px;
+  overflow: hidden;
+  margin-left: 10px;
 }
 
 .post {

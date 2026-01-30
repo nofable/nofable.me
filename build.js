@@ -38,15 +38,11 @@ for (index in sitemap.posts) {
 
   );
 
-  // sort out the image links
+  // leaving this as example renderer for when i do progressive images
   const renderer = {
-    image({ href }) {
-      // take the ../ from the front of the images
-      if (href.startsWith("../media")) {
-        href = href.replace("../", "./")
-      }
-      return `<img src="${href}" />`;
-    }
+    // image({ href }) {
+    //   return `<img src="${href}" />`;
+    // }
   }
   marked.use({ renderer })
   const htmlPost = marked.parse(contents);
