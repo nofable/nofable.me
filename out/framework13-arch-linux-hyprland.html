@@ -3,7 +3,7 @@
 
 <head>
   <!-- Classic metadata -->
-  <title>{{{ title }}}</title>
+  <title>Framework 13 Arch Linux Hyprland setup</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -43,9 +43,372 @@
         </div>
         <p>nofable.me by WILLIAM WOODHEAD</p>
       </a>
-      <h1>{{ title }}</h1>
+      <h1>Framework 13 Arch Linux Hyprland setup</h1>
 
-      {{{ htmlPost }}}
+      <p><img src="./media/2025-12-24-095912_hyprshot.png" /></p>
+<h1>Introduction</h1>
+<p>I started this project out of curiosity about Linux. Logging into transient cloud boxes wasn’t enough for me to really get my hands dirty, and neither was running virtual machines on my MacBook.</p>
+<p>I have always been a Macbook user. I very much enjoy using my Macbook M3 Air.</p>
+<p>Over the last year, I am getting more and more into terminal-based development, leveraging tools like <a href="https://github.com/junegunn/fzf">fzf</a>, <a href="https://neovim.io/">neovim</a> and <a href="https://starship.rs/">starship</a> on my Macbook. </p>
+<p>The README files for these tools almost always start with Linux installation instructions. The creators clearly think Linux-first, with macOS coming later.</p>
+<p>Eventually, my curiosity reached the point where I just needed to give it a go. I save up some money to buy a laptop.</p>
+<p>From the start it is always <a href="https://archlinux.org/">Arch Linux</a>. I am attracted to the simple minimalist philosophy. The aesthetics of some the leading Linux GUI distros depress me a bit. My project needs to excite me, not depress me.</p>
+<p>When I first see <a href="https://omarchy.org/">Omarchy</a>, I am certainly inspired. My first reaction is that I should just install Omarchy. But then I realise it&#39;s a terrible idea, because then I don&#39;t get to play around and learn all the tech from the ground up. Someone else has had all learning.</p>
+<p>So I decide to follow a similar pattern to Omarchy - Arch Linux and Hyprland - but start from the bottom, with my own design choices.</p>
+<h2>Project goal</h2>
+<p>I set out on this project with a loose, top-level goal:</p>
+<ul>
+<li>Configure a new laptop with Arch Linux and Hyprland to the point where I can code Rust in Neovim, and look things up on Chromium.</li>
+</ul>
+<p>I add to this goal along the way. I will revisit my goals in the Summary.</p>
+<h1>The Project</h1>
+<p><em>Warning. Please don&#39;t blindly copy my steps. I may have made mis-steps or mis-configurations. And surely the goal of anyone going through this process is to deep-learn the steps for themselves.</em></p>
+<h2>Pre-Requisites</h2>
+<h4>USB Drive</h4>
+<p>From a bit of pre-reading on the Arch Linux installation guide, I see I need an installation medium.</p>
+<p>I choose a USB Flash Drive since I can configure it on my Macbook and then insert it into the new Laptop.</p>
+<p>I buy a basic one with this spec:</p>
+<ul>
+<li>Memory storage capacity: 128 GB</li>
+<li>Hardware interface: USB 3.2 Gen 1</li>
+<li>Read speed: 400 Megabytes Per Second</li>
+</ul>
+<h4>Laptop</h4>
+<p>I buy a <a href="https://frame.work/gb/en/laptop13">Framework 13</a> laptop. I choose it because it&#39;s a safe option. Good laptops are expensive, so I didn&#39;t want to take a risk here.</p>
+<p>Besides, I like the <a href="https://frame.work/gb/en/about">philosophy</a> of Framework with the DIY, reparable attitude. I am certainly curious about doing the DIY build of the Framework 13.</p>
+<p>This is the spec of the Framework 13 Laptop that I buy:</p>
+<ul>
+<li>System: AMD Ryzen™ AI 300 Series - Ryzen™ AI 5 340</li>
+<li>Display: 2.8K</li>
+<li>Memory: DDR5-5600 - 32GB (2 x 16GB)</li>
+<li>Storage: WD_BLACK™ SN7100 NVMe™ - M.2 2280 - 1TB</li>
+<li>Laptop Bezel: Framework Laptop 13 Bezel - Translucent</li>
+<li>Keyboard: British English (2nd Gen)</li>
+<li>Power Adapter: Power Adapter - 60W - UK</li>
+<li>Expansion Cards<ul>
+<li>2 x USB-C (Translucent)</li>
+<li>USB-A</li>
+<li>HDMI (3rd Gen)</li>
+</ul>
+</li>
+</ul>
+<p>It arrives and I assemble it. It is very beautifully packaged and the framework guide is very easy to follow. A pleasing experience. Assembling the laptop is a fun novelty, but not a big learning for me. You just clip a few bits together.</p>
+<p>The real learning starts when I am presented with this new laptop without an OS installed. This is the first time I&#39;ve ever faced this situation. And I have a lot of learning to do.</p>
+<h2>Pre-Installation</h2>
+<h4>Arch Linux installation guide</h4>
+<p>I follow the Arch Linux <a href="https://guides.frame.work/Guide/Arch+Linux+on+the+Framework+Laptop+13/398">installation guide</a>. The guide is fantastic, but it goes deep and doesn&#39;t offer a easy linear set of commands.</p>
+<p>Each step links through to other pages, full of potential options and pathways - <em>How do you want to partition your storage? Do you want encryption or not? If so, which encryption strategy will you choose?...</em> It is overwhelming, so I take it one step at a time. After all, I&#39;m not here to do this quickly. I want to take the time to do the hard learning.</p>
+<h4>Acquire an Installation Image</h4>
+<p>I start, naturally, with <a href="https://wiki.archlinux.org/title/Installation_guide#Acquire_an_installation_image">Section 1.1</a>. I&#39;m on my Macbook M3 Air. I need to download the Arch Linux Installation Image and flash it onto my USD Drive.</p>
+<p>I fall at the first hurdle. Arch&#39;s <a href="https://archlinux.org/download/">download page</a> recommends you download the Install Image from BitTorrent. This means having a Torrent Client. I have never torrented before, so I decide to step past their recommendation, and just do a HTTP Direct Download from a mirror site. It feels a little defeatist to stumble on the very first step, but I decide BitTorrent can wait for another day.</p>
+<p>I download the Arch Linux Install Image from <a href="https://archlinux.uk.mirror.allworldit.com/archlinux/iso/2025.11.01/">archlinux.uk.mirror.allworldit.com</a></p>
+<p>Following <a href="https://wiki.archlinux.org/title/Installation_guide#Verify_signature">Section 1.2</a>, I use this command on my Macbook to verify the checksum against SHA256 hash on the <a href="https://archlinux.org/download/">download page</a>:</p>
+<pre><code class="hljs language-bash">shasum -a 256 ~/Downloads/archlinux-2025.11.01-x86_64.iso
+</code></pre><p>It matches. We can move forward.</p>
+<h4>Prepare installation medium</h4>
+<p>With the Install Image now downloaded on my Macbook, I need to follow <a href="https://wiki.archlinux.org/title/Installation_guide#Prepare_an_installation_medium">Section 1.3</a> to flash it to the USB Drive, ready for installation.</p>
+<p>I navigate to Arch&#39;s USB Flash installation page, to the <a href="https://wiki.archlinux.org/title/USB_flash_installation_medium#In_macOS">In macOS</a> section. To write the Image to my USB Drive, I use the command:</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">sudo</span> <span class="hljs-built_in">dd</span> <span class="hljs-keyword">if</span>=/Users/william/Downloads/archlinux-2025.11.01-x86_64.iso of=/dev/rdisk5 bs=1m
+</code></pre><p>The parameter I look up is <code>bs=1m</code>, which means that the block size is 1 megabyte. ie. the program will read and write 1 megabyte at a time.</p>
+<h4>Boot the Live Environment</h4>
+<p>With the Arch Install Image written to my USB Drive, I move onto <a href="https://wiki.archlinux.org/title/Installation_guide#Boot_the_live_environment">Section 1.4</a>, insert the USB Drive into my Framework 13 laptop, and try to boot from the USB Drive. </p>
+<p>However, when I try to boot, the laptop says it can&#39;t boot from the USB. I revisit the Arch installation guide and there is a <a href="https://wiki.archlinux.org/title/Installation_guide#Boot_the_live_environment">blue info box</a> stating that I need to disable Secure Boot. I kick myself for not reading the guide more carefully.</p>
+<p>To disable Secure Boot on my Framework 13, I continually tap F2 (not F12!) after pressing the power on button. F2 opens the admin UEFI firmware interface. From this admin menu I am able to find the setting to disable Secure Boot mode.</p>
+<p>I insert the USB Drive again and press the on button. It works! At this point, I now have a root user shell running from the Live Environment on the USB Drive.</p>
+<h4>Set console keyboard layout and font</h4>
+<p>At this point, The installation guide <a href="https://wiki.archlinux.org/title/Installation_guide#Set_the_console_keyboard_layout_and_font">Section 1.5</a> runs through a few commands to setup the console keyboard layout and font.I actually skip these steps since I am happy to operate in US keymap, and the font is fit for purpose.</p>
+<p>In <a href="https://wiki.archlinux.org/title/Installation_guide#Verify_the_boot_mode">Section 1.6</a> I check the UEFI bitness and it returns 64. No issues here.</p>
+<h4>Connect to the internet from live environment</h4>
+<p>I&#39;m at home. So I follow the instruction in <a href="https://wiki.archlinux.org/title/Installation_guide#Connect_to_the_internet">Section 1.7</a> and use <code>iwctl</code> to connect to my Wi-Fi network.</p>
+<pre><code class="hljs language-bash"><span class="hljs-comment"># from https://man.archlinux.org/man/iwctl.1</span>
+iwctl device list
+iwctl station DEVICE scan <span class="hljs-comment"># returns wlan0</span>
+iwctl station DEVICE get-networks <span class="hljs-comment"># returns list of Wi-Fi networks</span>
+
+<span class="hljs-comment"># DEVICE for me is wlan0,  SSID is my Wi-Fi network name</span>
+iwctl --passphrase=PASSPHRASE station DEVICE connect SSID
+
+<span class="hljs-comment"># Verify internet connection</span>
+ping ping.archlinux.org
+</code></pre><p>It confuses me why I need to setup my internet connection at this point. But the following step in the guide explains it. I need to update the system clock to be accurate and this requires internet. Inaccurate system clocks cause problems with TLS certificates and package signature verification, which will both be needed when I download new packages in a few steps time. </p>
+<h4>Partitioning storage</h4>
+<p>In order to install Arch Linux onto the storage drive of my Framework 13, I need to plan out how to organise my storage drive. This is <a href="https://wiki.archlinux.org/title/Installation_guide#Partition_the_disks">Section 1.9</a>.</p>
+<p>This step blocks my progress for a few days. I need to learn how partitioning works, what my options are for partitioning, and what my personal requirements are.</p>
+<p><strong>Partitioning Scheme</strong>
+I end up with a simple scheme, based on these requirements:</p>
+<ul>
+<li>Separate partition for root and home, to make my home volume self-contained.</li>
+<li>Root and home volumes encrypted at rest.</li>
+<li>No need for dual-boot or any stacked block devices.</li>
+<li>No need for any swap space (where Linux can offload RAM)</li>
+</ul>
+<p>With these requirements in mind, I design this partitioning scheme:</p>
+<ol>
+<li>1GB = EFI System Partition (ESP)</li>
+<li>40GB = Root Filesystem</li>
+<li>The rest = Home Filesystem</li>
+</ol>
+<p>I use UEFI with GPT because my laptop can support it, and it&#39;s an upgrade from BIOS with MBR.</p>
+<p><strong>fdisk</strong>
+I then decide to use <code>fdisk</code> to partition my storage block device. I choose <code>fdisk</code> because the installation guide recommends it.</p>
+<p>I am nervous about <code>fdisk</code>. I have never used it before and I am not sure how it works.</p>
+<p>It turns out it is pretty straight-forward. It&#39;s all safe until you press the <code>w</code> write button at the end.</p>
+<p><code>fdisk</code> takes you into an interactive command line:</p>
+<pre><code class="hljs language-bash">fdisk /dev/nvme0n1
+g               <span class="hljs-comment"># create clean GPT</span>
+
+n               <span class="hljs-comment"># new partition</span>
+&lt;enter&gt;         <span class="hljs-comment"># partition 1</span>
+&lt;enter&gt;         <span class="hljs-comment"># first sector</span>
++1G             <span class="hljs-comment"># make it 1GB</span>
+t               <span class="hljs-comment"># change type</span>
+1               <span class="hljs-comment"># choose &quot;EFI System Partition&quot; type</span>
+
+<span class="hljs-comment"># Root Partition</span>
+n               <span class="hljs-comment"># new partition</span>
+&lt;enter&gt;         <span class="hljs-comment"># partition 2</span>
+&lt;enter&gt;         <span class="hljs-comment"># first sector</span>
++40G            <span class="hljs-comment"># size for /</span>
+t               <span class="hljs-comment"># change type</span>
+2               <span class="hljs-comment"># select partition 2</span>
+&lt;enter&gt;         <span class="hljs-comment"># default &quot;Linux filesystem&quot; type</span>
+
+<span class="hljs-comment"># Home partition</span>
+n               <span class="hljs-comment"># new partition</span>
+&lt;enter&gt;         <span class="hljs-comment"># partition 3</span>
+&lt;enter&gt;         <span class="hljs-comment"># first sector</span>
+&lt;enter&gt;         <span class="hljs-comment"># last sector (use all remaining space)</span>
+
+p               <span class="hljs-comment"># check layout</span>
+w               <span class="hljs-comment"># write changes</span>
+</code></pre><h4>Format and encrypt the partitions</h4>
+<p>I arrive at <a href="https://wiki.archlinux.org/title/Installation_guide#Format_the_partitions">Section 1.10</a>. I am tempted to rush ahead with formatting the partitions, but I then remember that I want to encrypt my partitions.</p>
+<p>This is mostly driven by curiosity rather than hard necessity, but equally, there is no harm in having encrypted storage.</p>
+<p>So these are the requirements I design for myself:</p>
+<ul>
+<li>Encrypted storage at rest</li>
+<li>No additional passwords to be typed at boot time</li>
+<li>EFI partition does not need to be encrypted</li>
+</ul>
+<p>I choose to use <code>dmcrypt</code> and follow the guide in <a href="https://wiki.archlinux.org/title/Dm-crypt/Encrypting_an_entire_system#LUKS_on_a_partition_with_TPM2_and_Secure_Boot">LUKS on a Partition with TPM2 and Secure Boot</a>.</p>
+<p>This stage is tricky. I jump between the installation guide and the extra steps in the LUKS guide. This learning curve here for me is steep and it takes me a while to figure it all out.</p>
+<p>But with these commands, I progress forward:</p>
+<pre><code class="hljs language-bash"><span class="hljs-comment"># Make a FAT32 File Allocation Table filesystem </span>
+<span class="hljs-comment"># This will store the EFI System</span>
+mkfs.fat -F 32 /dev/nvme0n1p1
+
+<span class="hljs-comment"># setup luks encryption for root partition</span>
+cryptsetup luksFormat /dev/nvme0n1p2
+<span class="hljs-comment"># opens LUKS partition &amp; creates mapping at /dev/mapper/root</span>
+cryptsetup open /dev/nvme0n1p2 root
+<span class="hljs-comment"># make a filesystem and mount it to /mnt</span>
+mkfs.ext4 /dev/mapper/root
+<span class="hljs-comment"># mount the device /dev/mapper/root to /mnt on live environment filesystem</span>
+mount /dev/mapper/root /mnt
+
+<span class="hljs-comment"># do the same thing for the home partition</span>
+cryptsetup luksFormat /dev/nvme0n1p3
+cryptsetup open /dev/nvme0n1p3 home
+mkfs.ext4 /dev/mapper/home
+mount --<span class="hljs-built_in">mkdir</span> /dev/mapper/home /mnt/home
+
+<span class="hljs-comment"># mount the boot partition</span>
+mount --<span class="hljs-built_in">mkdir</span> /dev/nvme0n1p1 /mnt/boot
+
+<span class="hljs-comment"># Validate the device mount setup with</span>
+lsblk
+</code></pre><h4>Checkpoint</h4>
+<p>At this point, I have partitioned my storage drive, setup LUKS encryption for root and home partitions, and mounted all the required filesystems onto the Live Environment.</p>
+<h2>Installation</h2>
+<p>I skip <a href="https://wiki.archlinux.org/title/Installation_guide#Select_the_mirrors">Section 2.1</a>, happy to use the pre-configured mirrors.</p>
+<h4>pacstrap</h4>
+<p>For <a href="https://wiki.archlinux.org/title/Installation_guide#Install_essential_packages">Section 2.2</a> I decide to keep things simple. I choose to install <code>base</code>, <code>linux</code>, <code>linux-firmware</code>, <code>vim</code> and <code>networkmanager</code> for the following reasons:</p>
+<ul>
+<li><code>base</code>: mandatory to install. minimal Arch system.</li>
+<li><code>linux</code>: required to boot system. It&#39;s the Kernel.</li>
+<li><code>linux-firmware</code>: required for devices. Wi-Fi etc.</li>
+<li><code>vim</code>: So i can edit config files.</li>
+<li><code>networkmanager</code>: So I can connect to the internet after boot. (iwctl used earlier was on live environment)</li>
+</ul>
+<pre><code class="hljs language-bash"><span class="hljs-comment"># Install a minimal, bootable Arch Linux system into the mounted filesystem at `/mnt`, with -K signifying to use the live ISO’s keyring to prevent signature verification errors</span>
+pacstrap -K /mnt base linux linux-firmware vim networkmanager
+</code></pre><p>Everything else can be installed by pacman from the new system.</p>
+<h4>fstab</h4>
+<p>The <a href="https://wiki.archlinux.org/title/Installation_guide#Fstab">next step</a> is to configure <code>/etc/fstab</code> on the target environment so the kernel can know about the different partitions at boot time.</p>
+<p>I get very confused here, because the <a href="https://wiki.archlinux.org/title/Dm-crypt/Encrypting_an_entire_system#LUKS_on_a_partition_with_TPM2_and_Secure_Boot">LUKS on a Partition with TPM2 and Secure Boot</a> guide explicitly states that I can skip the fstab step of the normal installation guide.</p>
+<p>However when I follow this advice and skip fstab setup, I find myself in emergency shell.</p>
+<p>It turns out to support my LUKS encrypted setup, I do need a <code>/etc/fstab</code> file as well as a <code>/etc/crypttab</code> file. The <code>etc/fstab</code> file allows <code>initramfs</code> to unlock and boot the root partition. Then <code>/etc/crypttab</code> can be used by the new OS to unlock the home device.</p>
+<p>So I run this command to create /etc/fstab:</p>
+<pre><code class="hljs language-bash"><span class="hljs-comment"># generaate filesystem table with UUID (-U) by scanning /mnt and then outputting to /mnt/etc/fstab</span>
+genfstab -U /mnt &gt;&gt; /mnt/etc/fstab
+</code></pre><h4>chroot</h4>
+<p>I then change root into the target environment:</p>
+<pre><code class="hljs language-bash"><span class="hljs-comment"># change file system root to /mnt </span>
+arch-chroot /mnt
+</code></pre><h4>Configure time and locale</h4>
+<p>I follow Sections <a href="https://wiki.archlinux.org/title/Installation_guide#Time">3.3</a> to <a href="https://wiki.archlinux.org/title/Installation_guide#Network_configuration">3.5</a> to do some simple time and locale config to get the new system setup.</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">ln</span> -sf /usr/share/zoneinfo/Europe/London /etc/localtime
+hwclock --systohc
+
+<span class="hljs-comment"># uncomment en_GB.UTF-8 UTF-8 from locale.gen</span>
+vim /etc/locale.gen
+<span class="hljs-comment"># Generate locales</span>
+locale-gen
+<span class="hljs-comment"># setup my locale to be en_GB</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;LANG=en_GB.UTF-8&quot;</span> &gt; /etc/locale.conf
+<span class="hljs-comment"># setup my hostname</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;fw13&quot;</span> &gt; /etc/hostname
+<span class="hljs-comment"># setup my keyboard layout</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;KEYMAP=uk&quot;</span> &gt;&gt; /etc/vconsole.conf
+</code></pre><h4>Configure load sequence</h4>
+<p><strong>mkinitcpio</strong>
+The installation guide in section <a href="https://wiki.archlinux.org/title/Installation_guide#Initramfs">3.6</a> states that creating a new <code>initramfs</code> image is not required.</p>
+<p>However because I setup encryption, I need to add the <code>sd-encrypt</code> package to <code>/etc/mkinitcpio.conf</code> so that my <code>initramfs</code> knows how to unlock my encrypted root device.</p>
+<p>So I follow <a href="https://wiki.archlinux.org/title/Dm-crypt/Encrypting_an_entire_system#Configuring_mkinitcpio_2">this section</a> and add <code>sd-encrypt</code> to the HOOKS of <code>/etc/mkinitcpio.conf</code>.</p>
+<p><strong>Boot Loader</strong>
+Then I install boot loader and recreate the <code>initramfs</code> image.</p>
+<pre><code class="hljs language-bash"><span class="hljs-comment"># install systemd-boot boot loader</span>
+bootctl install
+<span class="hljs-comment"># recreate initramfs image. -P means process all presets contained in /etc/mkinitcpio.d</span>
+mkinitcpio -P
+</code></pre><p>The Boot Loader requires a loader config to boot Arch, So I add the following lines to <code>/boot/loader/loader.conf</code></p>
+<pre><code class="hljs language-bash"><span class="hljs-comment"># configure the boot loader</span>
+default  arch.conf <span class="hljs-comment"># look for /boot/loader/entries/arch.conf</span>
+<span class="hljs-built_in">timeout</span>  4 <span class="hljs-comment"># show boot menu for 4 seconds before booting default. </span>
+console-mode max <span class="hljs-comment"># screen resolution for the boot menu</span>
+editor   no <span class="hljs-comment"># specifies whether you can edit kernel parameters during boot</span>
+</code></pre><p>Then I need to create an entry for <code>arch.conf</code> which points to a linux image and specifies kernel parameters.
+So I write the following into <code>/boot/loader/entries/arch.conf</code></p>
+<pre><code class="hljs language-bash">title   Arch Linux <span class="hljs-comment"># human readable name show in boot menu</span>
+linux   /vmlinuz-linux <span class="hljs-comment"># specify the linux kernel image to load</span>
+initrd  /initramfs-linux.img <span class="hljs-comment"># specify the initramfs image</span>
+options rd.luks.name=ROOT_LUKS_UUID=root root=/dev/mapper/root rw <span class="hljs-comment"># kernel config to decrypt root device </span>
+</code></pre><p>nb. ROOT_LUKS_UUID above comes from the command:</p>
+<pre><code class="hljs language-bash">cryptsetup luksUUID /dev/nvme0n1p2
+</code></pre><p><strong>crypttab</strong>
+Then I need to configure <code>/etc/crypttab</code> so that the new system can unlock my encrypted home partition.
+So I add the following to <code>/etc/crypttab</code></p>
+<pre><code class="hljs">home  UUID=HOME_LUKS_UUID  none  luks
+</code></pre><p>nb. HOME_LUKS_UUID comes from the command:</p>
+<pre><code class="hljs language-bash">cryptsetup luksUUID /dev/nvme0n1p3
+</code></pre><h4>Set password and reboot</h4>
+<p>Final basic steps before reboot...</p>
+<pre><code class="hljs language-bash">passwd <span class="hljs-comment"># follow instructions to setup root password</span>
+<span class="hljs-built_in">exit</span> <span class="hljs-comment"># exit chroot enviroment</span>
+reboot <span class="hljs-comment"># and remove USB Drive!</span>
+</code></pre><h4>Checkpoint</h4>
+<p>At this point I have made it to a full LUKS encrypted setup and I can boot Arch Linux from my Framework 13 without the USB Drive.</p>
+<p>However, I still have to enter the LUKS encryption password on boot. Secure Boot is also not enabled. </p>
+<p>So there are a few more post-installation steps still to go to hit my requirements.</p>
+<h2>Post-Installation</h2>
+<p>I boot up the new system without the USB Drive.</p>
+<h4>Connect to Wi-Fi</h4>
+<p>First thing to get sorted on the new system is the internet connection. I don&#39;t have <code>iwctl</code> now, so we use the <code>networkmanager</code> package that I installed with <code>pacstrap</code> earlier.</p>
+<pre><code class="hljs language-bash"><span class="hljs-comment"># Connect to Wi-Fi network</span>
+systemctl start NetworkManager.service
+nmcli device wifi list
+nmcli device wifi connect SSID password PASSWORD
+nmcli connection modify SSID connection.autoconnect <span class="hljs-built_in">yes</span>
+</code></pre><h4>TPM &amp; Secure Boot</h4>
+<p><strong>sbctl</strong>
+I follow Section <a href="https://wiki.archlinux.org/title/Dm-crypt/Encrypting_an_entire_system#Secure_Boot">3.7</a> of the LUKS setup guide to sign the boot loader executables and the EFI binary. Since it is recommended as the easy path, I choose to use Secure Boot Manager <code>sbctl</code>.</p>
+<pre><code class="hljs language-bash"><span class="hljs-comment"># install sbctl with pacman</span>
+pacman -S sbctl
+</code></pre><p>I then try to use <code>sbctl</code> to enroll keys but the command doesnt work. It <a href="https://wiki.archlinux.org/title/Unified_Extensible_Firmware_Interface/Secure_Boot#Creating_and_enrolling_keys">turns out</a> I need to put firmware into &quot;Setup Mode&quot; in order to move forward.</p>
+<p>So I turn off, and then press F2 continually again after pressing the power button, enter the admin EFI interface, go to Secure Boot and click to erase all Secure Boot settings. This puts Secure Boot in Setup Mode. (I get this information from this <a href="https://community.frame.work/t/secureboot-setup-mode/14889/2">community answer</a>).</p>
+<p>Then I power on again and run these commands as root to sign the boot loader executables and EFI binary:</p>
+<pre><code class="hljs language-bash"><span class="hljs-comment"># check status of installation and secure boot</span>
+sbctl status
+<span class="hljs-comment"># create custom secure boot keys</span>
+sbctl create-keys
+<span class="hljs-comment"># enroll in Microsoft key compatible mode</span>
+sbctl enroll-keys -m -f
+<span class="hljs-comment"># Check what files need to be signed for secure boot to work</span>
+sbctl verify
+<span class="hljs-comment"># Sign them</span>
+sbctl sign -s /boot/vmlinuz-linux
+sbctl sign -s /boot/EFI/BOOT/BOOTX64.EFI
+sbctl sign -s /boot/EFI/systemd/systemd-bootx64.efi
+</code></pre><p>At this point, I switch off, and I go back into the admin UEFI interface by tapping F2 after pressing the power button. I enable Secure Boot again.</p>
+<p><strong>Enroll TPM</strong>
+After booting up and logging in as root again, I enroll the TPM. The TPM (Trusted Platform Module) is hardware that can be used to unlock encrypted devices without needing a password. It releases encryption keys as long as the boot chain is not tampered with.</p>
+<pre><code class="hljs language-bash">systemd-cryptenroll --tpm2-device=auto /dev/nvme0n1p2
+systemd-cryptenroll --tpm2-device=auto /dev/nvme0n1p3
+
+<span class="hljs-comment"># rebuild initramfs so it includes the newly created LUKS configuration for TPM support</span>
+mkinitcpio -P
+</code></pre><h4>Checkpoint</h4>
+<p>At this point, I have hit all my requirements! I have encrypted volumes, that can be unlocked by the TPM in Secure Boot. I have a separate root and home volume. Time for some further post-installation setup.</p>
+<h4>Setup my user</h4>
+<p>Very standard practice - don&#39;t operate as root. Create a user and use sudo for elevating permission.</p>
+<pre><code class="hljs language-bash">useradd -m nofable
+<span class="hljs-comment"># use wheel since is is standardised</span>
+usermod -a -G wheel nofable
+passwd nofable
+<span class="hljs-comment"># install vi and sudo so I can use visudo</span>
+pacman -S vi <span class="hljs-built_in">sudo</span>
+<span class="hljs-comment"># allow wheel group to use sudo to run all command without a password </span>
+visudo
+uncommented wheel line
+%wheel ALL=(ALL:ALL) NOPASSWD: ALL
+
+<span class="hljs-built_in">logout</span>
+login as nofable
+</code></pre><h4>Firewall setup with nftables</h4>
+<p>I want a basic firewall setup. I choose to use <a href="https://wiki.archlinux.org/title/Nftables"><code>nftables</code></a> after researching a few options like <code>ufw</code> and <code>iptables</code>.</p>
+<p>I choose it because it is the upgrade to <code>iptables</code> but not a higher level abstraction like <a href="https://wiki.archlinux.org/title/Uncomplicated_Firewall"><code>ufw</code></a>. So I install it:</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">sudo</span> pacman -S nftables
+<span class="hljs-built_in">sudo</span> systemctl <span class="hljs-built_in">enable</span> nftables
+<span class="hljs-built_in">sudo</span> systemctl start nftables
+</code></pre><p>I then do a bunch of research into <code>nftables</code>, learning about rulesets, chains, rules. I start to craft my own config, but then I see there is already a config file at <code>/etc/nftables.conf</code>.</p>
+<p>To my delight, the installation of <code>nftables</code> with pacman installs a default config into <code>/etc/nftables.conf</code>, which does everything I need. So I just leave it as it is.</p>
+<h4>Checkpoint</h4>
+<p>At this point, I have a functioning Arch Linux OS running on my Framework 13. Next step is to get the GUI working and get to a point where I can do some programming using my new laptop.</p>
+<h2>GUI and further setup</h2>
+<p>Having chosen early on to use <a href="https://hypr.land/">Hyprland</a>, I spend a number of days learning about all the different options and modules on offer.</p>
+<h4>Design Principles</h4>
+<p>I come up with a set of principles for myself to help guide my decision making:</p>
+<ul>
+<li>I want all my config to be version controlled.</li>
+<li>I like logging in via a shell. It reminds me that GUI is just a feature of an OS. I therefore don&#39;t need a Screen Manager.</li>
+<li>I want to stick with Arch Linux&#39;s philosophy of simplicity and minimalism. Install the minimum set of packages to reach a delightful, aesthetically pleasing developer experience.</li>
+<li>Use the terminal for as much as possible.</li>
+<li>Everything should be themed in <a href="https://catppuccin.com/ports/">catppuccin</a>.</li>
+</ul>
+<h4>Tooling choices</h4>
+<p>I decide to use <a href="https://www.gnu.org/software/stow/manual/stow.html">Stow</a> to manage my configs. And here are my decisions of what packages to use:</p>
+<p>Terminal</p>
+<ul>
+<li><a href="https://github.com/kovidgoyal/kitty">Kitty</a> for terminal</li>
+<li><a href="https://en.wikipedia.org/wiki/Bash_(Unix_shell)">Bash</a> for shell</li>
+<li><a href="https://neovim.io/">Nvim</a> &amp; <a href="https://www.lazyvim.org/">LazyVim</a> for IDE and text editing</li>
+<li><a href="https://starship.rs/">Starship</a> for prompt style</li>
+<li><a href="https://github.com/junegunn/fzf">fzf</a> for fuzzy finding</li>
+<li><a href="https://yazi-rs.github.io/">yazi</a> for file explorer</li>
+</ul>
+<p>GUI</p>
+<ul>
+<li><a href="https://hypr.land/">Hyprland</a> for compositor</li>
+<li><a href="https://wiki.hypr.land/Hypr-Ecosystem/hypridle/">Hypridle</a> for idle timeouts</li>
+<li><a href="https://wiki.hypr.land/Hypr-Ecosystem/hyprlock/">Hyprlock</a> for my lock screen</li>
+<li><a href="https://wiki.hypr.land/Hypr-Ecosystem/hyprpaper/">Hyprpaper</a> for my wallpaper</li>
+<li><a href="https://github.com/Alexays/Waybar">Waybar</a> for the menu bar</li>
+<li><a href="https://github.com/emersion/mako">Mako</a> for notifications</li>
+</ul>
+<p>Apps</p>
+<ul>
+<li><a href="https://www.chromium.org/Home/">Chromium</a> for the browser</li>
+</ul>
+<p>And here is my final dotfiles <a href="https://github.com/nofable/fw13-arch-hypr-config">repo</a> with my basic setup.</p>
+<h2>Summary</h2>
+<p>I set out on this project with a loose top-level goal:</p>
+<ul>
+<li>Configure a new laptop with Arch Linux and Hyprland to the point where I can code in Rust in Neovim, and look things up on Chromium.</li>
+</ul>
+<p>As I discovered more about Arch Linux and the installation process, my goals and design choices evolved. I introduced requirements for TPM-backed automatic unlocking under Secure Boot, version controlled configuration, being terminal-first and a consistent Catppuccin theme.</p>
+<p>I learned a huge amount about Arch Linux, the boot sequence, device encryption, systemd, Hyprland, and all the open source packages I researched.</p>
+<p>The result is a Framework 13 laptop that’s now a fully functional development workstation, matching the developer experience I’m used to on my MacBook M3 Air.</p>
+
     </content>
   </container>
 </body>

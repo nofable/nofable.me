@@ -82,7 +82,6 @@ h2 {
   font-size: 2em;
   color: var(--ctp-mocha-mauve);
   margin-top: 1.5em;
-  border-bottom: 1px solid var(--ctp-mocha-surface1);
   padding-bottom: 0.25em;
 }
 
@@ -111,13 +110,10 @@ h6 {
 a {
   color: var(--ctp-mocha-lavender);
   text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition: all 0.2s ease;
 }
 
 a:hover {
   color: var(--ctp-mocha-mauve);
-  border-bottom: 1px solid var(--ctp-mocha-mauve);
 }
 
 a:visited {
@@ -126,7 +122,6 @@ a:visited {
 
 a:visited:hover {
   color: var(--ctp-mocha-sapphire);
-  border-bottom: 1px solid var(--ctp-mocha-sapphire);
 }
 
 /* Lists */
@@ -173,5 +168,62 @@ p {
 code {
   display: block;
   overflow-x: scroll;
+  padding: 10px;
+}
+
+a.leader:hover {
+  border-bottom: 0px;
+}
+
+a.leader:visited {
+  border-bottom: 0px;
+}
+
+a.leader:visited:hover {
+  border-bottom: 0px;
+}
+
+.leader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.leader img {
+  display: block;
+  max-width: 80px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.leader p {
+  border-bottom: 0px;
+  text-decoration: none;
+}
+
+.post {
+  border: 1px solid var(--ctp-mocha-pink);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+.post-head {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.post-title {
+  font-size: 1.4em;
+  font-weight: bold;
+}
+
+.post-date {
+  opacity: 0.4;
+}
+
+.post-desc {
   padding: 10px;
 }

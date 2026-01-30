@@ -34,8 +34,21 @@ for (index in sitemap.posts) {
         const language = hljs.getLanguage(lang) ? lang : 'plaintext';
         return hljs.highlight(code, { language }).value;
       }
-    })
+    }),
+
   );
+
+  // sort out the image links
+  const renderer = {
+    image({ href }) {
+      // take the ../ from the front of the images
+      if (href.startsWith("../media")) {
+        href = href.replace("../", "./")
+      }
+      return `<img src="${href}" />`;
+    }
+  }
+  marked.use({ renderer })
   const htmlPost = marked.parse(contents);
 
   // get the template for post pages
@@ -59,3 +72,5 @@ fs.writeFileSync(`${outputDir}/${sitemap.home.slug}`, result);
 
 // copy css files across to the output directory
 fs.cpSync("./css", `${outputDir}`, { recursive: true });
+// copy media files across to the output directory
+fs.cpSync("./media", `${outputDir}/media`, { recursive: true });

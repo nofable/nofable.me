@@ -73,7 +73,7 @@ Unlike a Perceptron:
 - The inputs xix_ixi​ can be any real-valued numbers (often normalized in practice).
 - The output is a real number in the interval $(0,1)$, rather than a strict 0 or 1.
 
-<img style="background-color: #FFFFFF" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Logistic-curve.svg/2560px-Logistic-curve.svg.png"/>
+![](https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Logistic-curve.svg/2560px-Logistic-curve.svg.png)
 
 This function is especially useful because it is smooth and differentiable everywhere. Small changes in the weights or bias lead to small changes in the output.
 #### MNIST Dataset
@@ -346,7 +346,7 @@ I was able to reach 99.0% classification accuracy, short of what Nielsen was abl
 
 One note is that PyTorch applies L2 Regularisation via the `weight_decay` parameter of the SGD method, rather than adding a parameter to the Cost function.
 
-<img src="../media/minst_classification_accuracy.png" />
+![](../media/minst_classification_accuracy.png)
 
 *Graph of accuracy by epoch via matplotlib*
 
