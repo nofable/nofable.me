@@ -7,5 +7,5 @@ Published via Cloudflare Pages
 
 ## How to publish
 1. Run `npm run build`
-1. Commit changes to git
-1. Cloudflare Pages will automatically pick up the new changes
+1. Commit changes to git.
+1. Cloudflare Pages will automatically pick up the new changes.
