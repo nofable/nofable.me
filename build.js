@@ -9,6 +9,7 @@ const sitemapPath = `${__dirname}/sitemap.json`;
 const postsDir = `${__dirname}/posts`;
 const postTemplatePath = `${__dirname}/templates/post.html`;
 const homeTemplatePath = `${__dirname}/templates/home.html`;
+const headerTemplatePath = `${__dirname}/templates/header.html`;
 const outputDir = `${__dirname}/out`;
 
 const sitemap = JSON.parse(fs.readFileSync(sitemapPath).toString());
@@ -18,6 +19,9 @@ if (fs.existsSync(outputDir)) {
   fs.rmSync(outputDir, { recursive: true, force: true });
 }
 fs.mkdirSync(outputDir);
+
+// get the header html
+const header = fs.readFileSync(headerTemplatePath).toString();
 
 // go through posts, create a html page for each one
 for (index in sitemap.posts) {
@@ -46,13 +50,12 @@ for (index in sitemap.posts) {
   }
   marked.use({ renderer })
   const htmlPost = marked.parse(contents);
-
   // get the template for post pages
   const source = fs.readFileSync(postTemplatePath).toString();
   // compile the handlebars template
   const template = Handlebars.compile(source);
   // create the final html page
-  const result = template({ ...post, htmlPost });
+  const result = template({ ...post, htmlPost, header });
   // write to the output directory
   fs.writeFileSync(`${outputDir}/${post.slug}.html`, result);
 }
@@ -62,7 +65,7 @@ sitemap.home.slug
 const source = fs.readFileSync(homeTemplatePath).toString();
 const template = Handlebars.compile(source);
 // pass in all the posts
-const result = template({ posts: sitemap.posts });
+const result = template({ posts: sitemap.posts, header });
 // write to the output diretory
 fs.writeFileSync(`${outputDir}/${sitemap.home.slug}`, result);
 

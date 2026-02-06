@@ -35,7 +35,7 @@ body {
   color: var(--ctp-mocha-text);
   margin: 50px 20px;
   line-height: 1.2;
-  font-size: 16px;
+  font-size: 14px;
 }
 
 container {
@@ -161,7 +161,7 @@ ul ul li::marker {
 /* Paragraphs */
 p {
   margin: 1.25em 0;
-  line-height: 1.7;
+  line-height: 1.6;
 }
 
 /* Code blocks */
@@ -184,26 +184,26 @@ pre>code {
   overflow-x: scroll;
 }
 
-.leader-mug:hover {
+.header-mug:hover {
   border-bottom: 0px;
 }
 
-.leader-mug:visited {
+.header-mug:visited {
   border-bottom: 0px;
 }
 
-.leader-mug:visited:hover {
+.header-mug:visited:hover {
   border-bottom: 0px;
 }
 
-.leader {
+.header {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-bottom: 40px;
 }
 
-.leader-mug {
+.header-mug {
   display: block;
   max-width: 80px;
   border-radius: 10px;
@@ -211,12 +211,12 @@ pre>code {
   overflow: hidden;
 }
 
-.leader-details {
+.header-details {
   display: flex;
   align-items: center;
 }
 
-.leader-github {
+.header-github {
   width: 30px;
   border-radius: 1000px;
   overflow: hidden;
@@ -224,30 +224,25 @@ pre>code {
 }
 
 .post {
+  display: block;
   border: 1px solid var(--ctp-mocha-pink);
   border-radius: 10px;
   margin-bottom: 10px;
-  padding: 10px;
-}
-
-.post-head {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin-bottom: 5px;
+  padding: 20px;
 }
 
 .post-title {
-  font-size: 1.4em;
+  font-size: 1.2em;
   font-weight: bold;
 }
 
 .post-date {
   opacity: 0.4;
+  margin-bottom: 10px;
 }
 
 .post-desc {
-  padding: 10px;
+  font-size: 0.8em;
 }
 
 /* Tables */
