@@ -4,6 +4,14 @@
   },
   "posts": [
     {
+      "title": "Simple ML workflow with pytorch, vast.ai, uv & vscode",
+      "author": "William Woodhead",
+      "date": "2026-02-06",
+      "slug": "pytorch-vastai-uv-vscode-workflow",
+      "filename": "pytorch-vastai-uv-vscode-workflow.md",
+      "desc": "I've been playing around more and more with Pytorch and ML workflows recently. I got to the point where running workloads on my local laptop - M3 Macbook Air - was becoming too slow..."
+    },
+    {
       "title": "ML with Kaggle Ames House Prices",
       "author": "William Woodhead",
       "date": "2026-01-30",

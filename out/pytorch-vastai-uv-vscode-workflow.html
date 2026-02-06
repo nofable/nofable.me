@@ -2,7 +2,8 @@
 <html lang="en-GB">
 
 <head>
-  <title>nofable - technical posts</title>
+  <!-- Classic metadata -->
+  <title>Simple ML workflow with pytorch, vast.ai, uv & vscode</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -13,7 +14,23 @@
     href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
     rel="stylesheet">
 
+  <!-- Styles -->
   <link rel="stylesheet" href="./main.css">
+
+  <!-- Latex rendering -->
+  <script>
+    MathJax = {
+      tex: { inlineMath: { '[+]': [['$', '$']] } }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js" defer></script>
+
+  <!-- Code syntax highlighting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@catppuccin/highlightjs@1.0.1/css/catppuccin-mocha.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/bash.min.js"></script>
+  <script>hljs.highlightAll();</script>
 </head>
 
 <body>
@@ -35,44 +52,172 @@
         </a>
     </div>
 </div>
-      <h1>Posts</h1>
-      <div>
-        <a href="/pytorch-vastai-uv-vscode-workflow" class="post">
-          <div class="post-title">
-            Simple ML workflow with pytorch, vast.ai, uv &amp; vscode
-          </div>
-          <div class="post-date">2026-02-06</div>
-          <div class="post-desc">I&#x27;ve been playing around more and more with Pytorch and ML workflows recently. I got to the point where running workloads on my local laptop - M3 Macbook Air - was becoming too slow...</div>
-        </a>
-        <a href="/ml-kaggle-ames-house-prices" class="post">
-          <div class="post-title">
-            ML with Kaggle Ames House Prices
-          </div>
-          <div class="post-date">2026-01-30</div>
-          <div class="post-desc">In this project, I built a full end-to-end machine learning pipeline on the Kaggle Ames House Prices dataset. Using careful feature engineering and Gradient Boosting, I achieved a leaderboard score of 0.13339 (top ~2k)...</div>
-        </a>
-        <a href="/neural-networks-and-deep-learning" class="post">
-          <div class="post-title">
-            Neural Networks and Deep Learning
-          </div>
-          <div class="post-date">2026-01-10</div>
-          <div class="post-desc">In this post, I note down my learnings from reading Neural Networks and Deep Learning by Michael Nielsen. At the end, I also provide the code I wrote in PyTorch, and the classification accuracy I was able to achieve for MNIST...</div>
-        </a>
-        <a href="/framework13-arch-linux-hyprland" class="post">
-          <div class="post-title">
-            Framework 13 Arch Linux Hyprland setup
-          </div>
-          <div class="post-date">2025-12-02</div>
-          <div class="post-desc">I started this project out of curiosity about Linux. Logging into transient cloud boxes wasn’t enough for me to really get my hands dirty, and neither was running virtual machines on my MacBook...</div>
-        </a>
-        <a href="/write-better-tech-design-docs" class="post">
-          <div class="post-title">
-            How to write better tech design docs
-          </div>
-          <div class="post-date">2025-11-21</div>
-          <div class="post-desc">This post is for you if you are an software engineer who finds it hard to write Technical Design Documents (TDDs)...</div>
-        </a>
-      </div>
+      <h1>Simple ML workflow with pytorch, vast.ai, uv &amp; vscode</h1>
+      <p>I&#39;ve been playing around more and more with Pytorch and ML workflows recently.
+I got to the point where running workloads on my local laptop - M3 Macbook Air - was becoming too slow.</p>
+<p>I didn&#39;t want to buy a new computer to solve this problem. So I started thinking about an easy and cheap workflow for running ML workloads on cloud instances.</p>
+<p>When I’m working on ML projects, I want:</p>
+<ul>
+<li>Clean, reproducible Python environments</li>
+<li>GPUs to speed up model training</li>
+<li>Fast installs</li>
+<li>Local development that feels normal, where I can run Jupyter notebooks and save charts</li>
+<li>Low fees and no ongoing maintenance</li>
+</ul>
+<p>After trying a few setups, I landed on a workflow that’s surprisingly simple:</p>
+<p><strong>uv + GitHub + Vast.ai + VS Code Remote SSH</strong></p>
+<p>I feel like I&#39;m working locally, but I can leverage GPUs to speed up training, but only pay when I am training. (And the fees are very small).</p>
+<p>Here’s the full setup.</p>
+<h2>Stack</h2>
+<h3>uv</h3>
+<p><code>uv</code> is a Fast Python package manager that replaces pip, venv, poetry. It reminds me of <code>npm</code> or <code>cargo</code> if you are familiar from NodeJS or Rust. The benefits are fast installs, lockfiles, simple commands.</p>
+<h3>Vast.ai</h3>
+<ul>
+<li>cheap rented GPUs</li>
+<li>perfect for short-lived training</li>
+</ul>
+<p><em>Nb. if you want vast.ai <a href="https://docs.vast.ai/documentation/reference/faq/security#what-is-secure-cloud">Secure Cloud</a> with fully trusted instances, make sure you filter for them.
+Otherwise, be careful not to download secure files or secret keys onto your vast.ai instance.</em></p>
+<h3>VS Code Remote SSH</h3>
+<ul>
+<li>Edit remote files like local</li>
+<li>Notebooks work normally</li>
+<li>Integrated terminals</li>
+</ul>
+<h2>Create a new project on your local computer with <code>uv</code></h2>
+<h3>Scaffold Project</h3>
+<p><a href="https://docs.astral.sh/uv/getting-started/installation/">Install <code>uv</code></a>:</p>
+<pre><code class="hljs language-bash">curl -LsSf https://astral.sh/uv/install.sh | sh
+</code></pre><p>Go to your projects folder (for me, that&#39;s <code>~/github</code>):</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">cd</span> ~/github
+</code></pre><p>Initialize the uv project:</p>
+<pre><code class="hljs language-bash">uv init --package ml-translate
+</code></pre><p>You get:</p>
+<pre><code class="hljs language-bash">ml-translate
+├── pyproject.toml
+├── README.md
+└── src
+    └── ml_translate
+        └── __init__.py
+</code></pre><p><em>nb. git is initialized automatically by uv.</em></p>
+<h3>Create the environment (still on your local computer)</h3>
+<pre><code class="hljs language-bash">uv venv
+</code></pre><p>Add runtime dependencies:</p>
+<pre><code class="hljs language-bash"><span class="hljs-comment"># as an example, I use numpy and pytorch</span>
+uv add numpy torch
+</code></pre><p>Add dev dependencies:</p>
+<pre><code class="hljs language-bash">uv add --dev ipykernel jupyter <span class="hljs-comment"># you will need these to run jupyter notebooks</span>
+uv add --dev matplotlib pytest pytest-cov ruff <span class="hljs-comment"># some other dev deps that I use</span>
+</code></pre><p><code>uv</code> creates <code>.venv/</code> and <code>uv.lock</code> to make the environment full reproducible.</p>
+<h3>Project layout</h3>
+<p>I keep things pretty simple:</p>
+<pre><code class="hljs language-bash">ml-translate/
+├── src/        <span class="hljs-comment"># library code to use in notebooks</span>
+├── notebooks/  <span class="hljs-comment"># orchestration of experiments</span>
+├── data/       <span class="hljs-comment"># datasets for train/val/test</span>
+├── tests/      <span class="hljs-comment"># tests for the src files</span>
+├── .venv/
+└── pyproject.toml
+</code></pre><h3>Local development in VS Code</h3>
+<p>Open the project in VS Code.
+Select Python interpreter (on Mac I use <code>CMD+SHFT+P</code> to see menu).
+Seleect <code>./.venv/bin/python</code>
+It&#39;s important to set the same interpreter for both notebooks and the workspace so linting works correctly.</p>
+<p>Now you can:</p>
+<ul>
+<li>develop normally</li>
+<li>run notebooks</li>
+</ul>
+<p>Commit and push (you might need to setup your remote repo first):</p>
+<pre><code class="hljs language-bash">git add -A
+git commit -m <span class="hljs-string">&quot;initial commit&quot;</span>
+git push
+</code></pre><h2>Vast.ai</h2>
+<h3>Setup account</h3>
+<p>Sign up at <strong>vast.ai</strong> and follow their <a href="https://docs.vast.ai/documentation/instances/connect/ssh">SSH docs</a>.</p>
+<h3>Create an SSH key on your local computer:</h3>
+<pre><code class="hljs language-bash">ssh-keygen -t ed25519 -C <span class="hljs-string">&quot;&lt;your email&gt;&quot;</span>
+</code></pre><p>Save as <code>~/.ssh/vast_ed25519</code></p>
+<p>Copy your public key:</p>
+<pre><code class="hljs language-bash"><span class="hljs-built_in">cat</span> ~/.ssh/vast_ed25519.pub | pbcopy
+</code></pre><p>Add it in the Vast.ai dashboard under <strong>SSH keys</strong>.</p>
+<h3>Rent a GPU</h3>
+<p>Create an instance in the Vast UI.
+When it starts, in the ssh key UI, you’ll see something like:</p>
+<pre><code class="hljs language-bash">ssh -p 42917 root@77.xxx.xxx.xxx -L 8080:localhost:8080
+</code></pre><p>Take note of the port and the hostname.</p>
+<h3>Add SSH config</h3>
+<p>We can modify <code>~/.ssh/config</code> to get a easy integration with VSCode:</p>
+<pre><code class="hljs language-bash"><span class="hljs-comment"># I use neovim, but you can use any editor.</span>
+nvim ~/.ssh/config
+</code></pre><p>Add the following, changing the hostname and port to your instance:</p>
+<pre><code class="hljs language-bash">Host vast-ai
+  HostName 77.xxx.xxx.xxx
+  Port 42917
+  User root
+  IdentityFile ~/.ssh/vast_ed25519
+  LocalForward 8080 localhost:8080
+  AddKeysToAgent <span class="hljs-built_in">yes</span>
+  ForwardAgent <span class="hljs-built_in">yes</span>
+</code></pre><h3>Connect with VS Code Remote SSH</h3>
+<p>In VSCode, install the extension <strong>Remote – SSH</strong>.</p>
+<p>Then connect to your remote instance:</p>
+<pre><code class="hljs">Cmd/Ctrl + Shift + P
+Remote-SSH: Connect to Host → vast-ai
+</code></pre><h3>Clone and sync the project on the GPU</h3>
+<p>Inside the remote session, clone your repo and install dependencies:</p>
+<pre><code class="hljs language-bash">git <span class="hljs-built_in">clone</span> git@github.com:nofable/ml-translate.git
+<span class="hljs-built_in">cd</span> ml-translate
+uv <span class="hljs-built_in">sync</span>
+</code></pre><p>In VSCode, open your folder in the explorer <code>/workspace/ml-translate</code>:</p>
+<p>You now have your project up and running on the remote host, but it feels like it&#39;s local.</p>
+<h3>Run notebooks on the GPU</h3>
+<p>Go to one of your notebooks and try to run it.
+Install Python + Jupyter if prompted.</p>
+<p>Set interpreter to <code>/workspace/ml-translate/.venv/bin/python</code></p>
+<p>Now all notebooks execute directly on the GPU, and the charts show in VSCode.</p>
+<h3>git on remote host</h3>
+<h4>Enable git on the remote</h4>
+<pre><code class="hljs language-bash">git config --global user.email <span class="hljs-string">&quot;&lt;email&gt;&quot;</span>
+git config --global user.name <span class="hljs-string">&quot;&lt;username&gt;&quot;</span>
+</code></pre><h4>Secure push to origin</h4>
+<p>Because we enabled SSH agent forwarding in our <code>~/.ssh/config</code> file with <code>ForwardAgent yes</code>, we can push to github without exposing our ssh key to the remote host:</p>
+<pre><code class="hljs language-bash">git push origin main
+</code></pre><h3>Monitor GPU usage</h3>
+<p>To see the GPU utilization of my training, I used this command in tmux:</p>
+<pre><code class="hljs language-bash">watch -n 1 nvidia-smi
+</code></pre><p>It shows GPU utilization, memory usage &amp; running processes so its super useful during training to see if you are using the GPU effectively.</p>
+<h3>Shut down when finished</h3>
+<p>Once training is done, I save my results, including the charts.
+Then <strong>destroy the instance</strong> in Vast UI.
+Otherwise you keep getting billed.</p>
+<h2>My typical workflow</h2>
+<h3>Local</h3>
+<ul>
+<li>code</li>
+<li>test</li>
+<li>short train loop to sanity check</li>
+<li>commit</li>
+<li>push to github</li>
+</ul>
+<h3>Remote GPU</h3>
+<ul>
+<li>connect via VS Code</li>
+<li><code>uv sync</code></li>
+<li>run notebooks / training</li>
+<li>push results</li>
+<li>destroy instance</li>
+</ul>
+<h1>Why I like this setup</h1>
+<ul>
+<li>fast installs</li>
+<li>cheap GPUs</li>
+<li>zero cloud complexity</li>
+<li>reproducible environments</li>
+<li>notebooks “just work”</li>
+<li>only pay when needed</li>
+</ul>
+
     </content>
   </container>
 </body>
