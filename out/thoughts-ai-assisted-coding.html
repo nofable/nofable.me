@@ -2,7 +2,8 @@
 <html lang="en-GB">
 
 <head>
-  <title>nofable - technical posts</title>
+  <!-- Classic metadata -->
+  <title>Thoughts on AI Assisted Coding</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -13,7 +14,23 @@
     href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
     rel="stylesheet">
 
+  <!-- Styles -->
   <link rel="stylesheet" href="./main.css">
+
+  <!-- Latex rendering -->
+  <script>
+    MathJax = {
+      tex: { inlineMath: { '[+]': [['$', '$']] } }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js" defer></script>
+
+  <!-- Code syntax highlighting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@catppuccin/highlightjs@1.0.1/css/catppuccin-mocha.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/bash.min.js"></script>
+  <script>hljs.highlightAll();</script>
 </head>
 
 <body>
@@ -35,51 +52,32 @@
         </a>
     </div>
 </div>
-      <h1>Posts</h1>
-      <div>
-        <a href="/thoughts-ai-assisted-coding" class="post">
-          <div class="post-title">
-            Thoughts on AI Assisted Coding
-          </div>
-          <div class="post-date">2026-08-23</div>
-          <div class="post-desc">My thoughts on AI-Assisted coding after 6 months of Claude Code.</div>
-        </a>
-        <a href="/pytorch-vastai-uv-vscode-workflow" class="post">
-          <div class="post-title">
-            Simple ML workflow with pytorch, vast.ai, uv &amp; vscode
-          </div>
-          <div class="post-date">2026-02-06</div>
-          <div class="post-desc">I&#x27;ve been playing around more and more with Pytorch and ML workflows recently. I got to the point where running workloads on my local laptop - M3 Macbook Air - was becoming too slow...</div>
-        </a>
-        <a href="/ml-kaggle-ames-house-prices" class="post">
-          <div class="post-title">
-            ML with Kaggle Ames House Prices
-          </div>
-          <div class="post-date">2026-01-30</div>
-          <div class="post-desc">In this project, I built a full end-to-end machine learning pipeline on the Kaggle Ames House Prices dataset. Using careful feature engineering and Gradient Boosting, I achieved a leaderboard score of 0.13339 (top ~2k)...</div>
-        </a>
-        <a href="/neural-networks-and-deep-learning" class="post">
-          <div class="post-title">
-            Neural Networks and Deep Learning
-          </div>
-          <div class="post-date">2026-01-10</div>
-          <div class="post-desc">In this post, I note down my learnings from reading Neural Networks and Deep Learning by Michael Nielsen. At the end, I also provide the code I wrote in PyTorch, and the classification accuracy I was able to achieve for MNIST...</div>
-        </a>
-        <a href="/framework13-arch-linux-hyprland" class="post">
-          <div class="post-title">
-            Framework 13 Arch Linux Hyprland setup
-          </div>
-          <div class="post-date">2025-12-02</div>
-          <div class="post-desc">I started this project out of curiosity about Linux. Logging into transient cloud boxes wasn’t enough for me to really get my hands dirty, and neither was running virtual machines on my MacBook...</div>
-        </a>
-        <a href="/write-better-tech-design-docs" class="post">
-          <div class="post-title">
-            How to write better tech design docs
-          </div>
-          <div class="post-date">2025-11-21</div>
-          <div class="post-desc">This post is for you if you are an software engineer who finds it hard to write Technical Design Documents (TDDs)...</div>
-        </a>
-      </div>
+      <h1>Thoughts on AI Assisted Coding</h1>
+      <p><em>As always on this site, this was written by me without any AI assistance.</em></p>
+<h2>Overview</h2>
+<p>At work, I&#39;ve been full-time AI-Assisted coding with Claude Code for the last 6 months.</p>
+<p>I still write my tech specs myself, I still review PRs myself, I still check over every line of production code that AI produces for me, although I have got a bit lazy about checking the test code it produces.</p>
+<p>I tend to have between one and three Claude Code session running at a given time. One for my primary bit of work, and then the others for doing side tasks like reviewing, tweaking, background research. I do find that I can only really deal with one at a time.</p>
+<p>Here are my thoughts on it all so far:</p>
+<h2>Good stuff</h2>
+<p><strong>Lower complexity tasks</strong>. I can move a lot faster. Claude can find the right files to make changes, make the edits, write test code, do the git commit messages &amp; PR description. With lower complexity tasks, I&#39;m probably 10x faster, and I&#39;m also able to work more broadly in several different languages that I&#39;m not historically familiar with.</p>
+<p><strong>Command line</strong>. Grep parameters, exploring AWS or K8S infrastructure, parsing json or using awk - it used to take me ages to construct commands. I used to save useful commands somewhere, but inevitably they would require small tedious changes. Now AI can create these queries instantly and it&#39;s fantastic - I can ask it to give me data on Github pull requests comments from the last months, or I can get it to search AWS logs.</p>
+<p><strong>Git commit and PR descriptions</strong> are better now than before AI. Longer sure, but definitely better. When looking at git history, you used to be left with single sentences saying something like &quot;added another test&quot;. Now with AI, you get a full description of a change and the reason for it. It&#39;s very helpful for understanding why code was introduced.</p>
+<p><strong>Debugging</strong> is much easier now for 90% of issues. AI can very quickly identify issues in the environment setup, understand error messages instantly and close in on a problem very quickly. (There is a bad side to this explored below).</p>
+<p><strong>Explorative Research</strong> in the early phase is enjoyable with AI. I ask questions like &quot;what is the equivalent API in iOS to this one in Android?&quot; or &quot;How do different programming languages deal with async processes?&quot; It&#39;s so easy to make a quick start now on a research task. The danger here is never leaving Claude for research. I do force myself to consult the actual source of truth documents when I get further into the research project.</p>
+<h2>Bad Stuff</h2>
+<p><strong>Code comments</strong>. Every day I write the same feedback to Claude so many time that I have it saved as a snippet in my Obsidian. I say: &quot;<em>Dear Claude, comments should only exist to say something that isn&#39;t obvious from the code. Please go back over and remove all unnecessary comments.</em>&quot; It doesn&#39;t matter how many times I ask Claude to store this in its memory, it just cannot seem to stop adding multiline comments to every code edit it makes. I find reviewing PRs with lots of comments very difficult. It stops me reading the code, and often I find the Claude style language hard to grok.</p>
+<p><strong>Blurry mental model of the codebase</strong>. Before AI, if I wrote a module of code, it really imprinted into my brain. I learned during the process. I learned both the language I was writing, and I learned the code path patterns. My mental model improved, I became more and more useful. Now with AI, I don&#39;t get that same brain imprint. Everything is blurrier. Even if I go back over every line of code that AI helps me with, it isn&#39;t the same as writing it out myself.</p>
+<p><strong>Debugging was learning</strong>. Debugging used to be how I learned codebases. Now that Claude is so good at debugging, it can be much harder to get your teeth into a codebase. I think there is a place for reserving debugging for humans even when Claude would do it quicker. Otherwise we can&#39;t learn effectively.</p>
+<p><strong>Language mastery</strong>. With AI, I feel more detached from the coding language. I don&#39;t get to know the syntax as well, or the method calls. I don&#39;t find myself wondering if this method is implemented in a different way to that method, or if there is a more idiomatic way to write a function. My coding language skills are atrophying. I wrote a large module of an Android App in Kotlin recently, but I still wouldn&#39;t say I can write Kotlin, because it was heavily AI Assited. I find this concerning.</p>
+<p><strong>Document Slop</strong>. Being given large Claude-spit-out documents by co-workers is happening more and more. I now often get given a lengthy Claude Artifact or a paste-out of Claude output in a Google Doc. I find this very frustrating. We are all drowning in our own AI generated content, we don&#39;t also need to be carelessly handed more slops from someone else. When I do research and share a doc with others, the main thing I focus on is brevity. I think brevity is one of the key distinguishers between humans and AI now. We can&#39;t read as fast as AI, or retain as much information, so we need to have shorter documents with the key information hoisted.</p>
+<h2>My reaction</h2>
+<p>With this new paradigm firmly entrenched in our workflows, I&#39;ve come up with a few things I want to try out going forward: </p>
+<p>I want to engage more on side projects without AI. Before AI, I was learning Neovim, Linux, Pytorch &amp; Python, and I want to continue learning these things without AI. I now think of this like going to the gym - it&#39;s my Software Engineering pushups to make sure I don&#39;t atrophy my brain.</p>
+<p>I want to find a way to engage more with the test code. Test code used to be a great way to learn the ins and outs of a module. Perhaps I will try to write out the test specs before giving it to AI to complete the code.</p>
+<p>I want to continue to write the tech specs without AI first. Then get AI to review my work. This is where I still think I&#39;m better than AI - AI is not very good at keeping distributed systems architecture really simple and thinking through complex high level problems.</p>
+<p>I&#39;m still not comfortable with the new age of loops, spinning up several agents, not checking code etc. This makes me feel like I&#39;m behind the frontier, but I don&#39;t think I&#39;m going to change this for now. It&#39;s still too risky.</p>
+
     </content>
   </container>
 </body>

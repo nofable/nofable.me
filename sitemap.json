@@ -4,6 +4,14 @@
   },
   "posts": [
     {
+      "title": "Thoughts on AI Assisted Coding",
+      "author": "William Woodhead",
+      "date": "2026-08-23",
+      "slug": "thoughts-ai-assisted-coding",
+      "filename": "thoughts-ai-assisted-coding.md",
+      "desc": "My thoughts on AI-Assisted coding after 6 months of Claude Code."
+    },
+    {
       "title": "Simple ML workflow with pytorch, vast.ai, uv & vscode",
       "author": "William Woodhead",
       "date": "2026-02-06",
